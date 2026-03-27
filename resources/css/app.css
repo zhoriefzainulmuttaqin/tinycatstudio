@@ -76,6 +76,97 @@
         animation-play-state: paused;
     }
 
+    .luxury-panel {
+        position: relative;
+        overflow: hidden;
+        isolation: isolate;
+    }
+
+    .luxury-panel::before {
+        content: '';
+        position: absolute;
+        inset: 1px;
+        border-radius: inherit;
+        background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+        z-index: -2;
+    }
+
+    .luxury-panel::after {
+        content: '';
+        position: absolute;
+        inset: -30%;
+        background: radial-gradient(circle at var(--pointer-x, 50%) var(--pointer-y, 50%), rgba(255, 255, 255, 0.16), transparent 24%);
+        opacity: 0;
+        transition: opacity 0.35s ease;
+        z-index: -1;
+        pointer-events: none;
+    }
+
+    .luxury-panel:hover::after {
+        opacity: 1;
+    }
+
+    .parallax-scene {
+        transform-style: preserve-3d;
+        perspective: 1600px;
+    }
+
+    .parallax-layer {
+        transition: transform 220ms ease-out;
+        will-change: transform;
+        transform-style: preserve-3d;
+    }
+
+    .tilt-card {
+        transform-style: preserve-3d;
+        will-change: transform;
+        transition: transform 180ms ease-out, border-color 220ms ease, background-color 220ms ease;
+    }
+
+    .tilt-card > * {
+        transform: translateZ(24px);
+    }
+
+    .hover-lift {
+        transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1), border-color 220ms ease, background-color 220ms ease,
+            box-shadow 220ms ease;
+    }
+
+    .hover-lift:hover {
+        transform: translateY(-10px);
+    }
+
+    .pricing-glow {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .pricing-glow::before {
+        content: '';
+        position: absolute;
+        inset: auto -20% -55% auto;
+        width: 240px;
+        height: 240px;
+        border-radius: 9999px;
+        background: radial-gradient(circle, rgba(255, 122, 0, 0.24), transparent 68%);
+        pointer-events: none;
+    }
+
+    .section-noise {
+        position: relative;
+    }
+
+    .section-noise::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: radial-gradient(rgba(255, 255, 255, 0.06) 0.6px, transparent 0.6px);
+        background-size: 18px 18px;
+        opacity: 0.08;
+        pointer-events: none;
+        mask-image: linear-gradient(180deg, transparent, black 12%, black 88%, transparent);
+    }
+
     [data-reveal] {
         opacity: 0;
         transform: translate3d(0, 36px, 0) scale(0.98);
@@ -133,6 +224,13 @@
     .floating-card,
     .marquee-track {
         animation: none !important;
+    }
+
+    .parallax-layer,
+    .tilt-card,
+    .hover-lift {
+        transition: none !important;
+        transform: none !important;
     }
 
     [data-reveal],

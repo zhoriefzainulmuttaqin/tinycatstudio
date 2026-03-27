@@ -3,10 +3,10 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>@yield('title', ($siteSettings['site_name'] ?? 'TinyCatStudio') . ' | Software House')</title>
+        <title>@yield('title', ($siteSettings['site_name'] ?? 'TinyCatStudio') . ' | Software House Premium')</title>
         <meta
             name="description"
-            content="@yield('meta_description', $siteSettings['site_tagline'] ?? 'TinyCatStudio membantu bisnis bertumbuh lewat website, aplikasi mobile, branding, desain visual, dan iklan digital.')"
+            content="@yield('meta_description', $siteSettings['site_tagline'] ?? 'TinyCatStudio adalah software house premium untuk website, aplikasi mobile, logo design, graphic design, dan jasa iklan digital.')"
         >
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600,700,800" rel="stylesheet" />
@@ -30,7 +30,7 @@
                         <span class="flex h-11 w-11 items-center justify-center rounded-2xl border border-orange-400/40 bg-orange-500/15 text-sm font-semibold tracking-[0.3em] text-orange-300">TCS</span>
                         <div>
                             <p class="text-sm font-semibold tracking-[0.25em] text-white">{{ strtoupper($siteSettings['site_name'] ?? 'TinyCatStudio') }}</p>
-                            <p class="text-xs text-white/55">Software House & Creative Studio</p>
+                            <p class="text-xs text-white/55">Software House • Mobile • Design • Ads</p>
                         </div>
                     </a>
 
@@ -44,7 +44,7 @@
 
                     <div class="hidden lg:block">
                         <a href="https://wa.me/{{ preg_replace('/\D+/', '', $siteSettings['whatsapp_number'] ?? '6281234567890') }}" target="_blank" rel="noreferrer" class="inline-flex items-center rounded-full border border-orange-400/40 bg-orange-500 px-5 py-3 text-sm font-semibold text-white transition hover:bg-orange-400">
-                            Konsultasi Gratis
+                            Mulai Brief
                         </a>
                     </div>
 
@@ -62,7 +62,7 @@
                         <a href="{{ $pricingLink }}" @click="open = false">Harga</a>
                         <a href="{{ $contactLink }}" @click="open = false">Kontak</a>
                         <a href="https://wa.me/{{ preg_replace('/\D+/', '', $siteSettings['whatsapp_number'] ?? '6281234567890') }}" target="_blank" rel="noreferrer" class="inline-flex w-fit rounded-full bg-orange-500 px-5 py-3 font-semibold text-white">
-                            Konsultasi Gratis
+                            Mulai Brief
                         </a>
                     </div>
                 </div>
@@ -84,8 +84,8 @@
                 <div class="mx-auto grid max-w-7xl gap-10 px-6 py-16 lg:grid-cols-[1.4fr_1fr] lg:px-8">
                     <div class="space-y-5">
                         <span class="inline-flex rounded-full border border-orange-400/30 bg-orange-500/10 px-4 py-2 text-xs font-semibold tracking-[0.3em] text-orange-300">TINYCATSTUDIO</span>
-                        <h2 class="max-w-2xl text-3xl font-semibold text-white md:text-4xl">Bangun produk digital yang cepat rilis, rapi secara visual, dan siap menghasilkan leads.</h2>
-                        <p class="max-w-2xl text-white/65">Kami membantu bisnis, UMKM, startup, dan personal brand menghadirkan website, aplikasi, visual branding, serta kampanye iklan dengan eksekusi yang terukur.</p>
+                        <h2 class="max-w-2xl text-3xl font-semibold text-white md:text-4xl">Bangun website, aplikasi, dan brand assets yang terlihat mahal, bergerak rapi, dan siap mengejar growth.</h2>
+                        <p class="max-w-2xl text-white/65">TinyCatStudio membantu bisnis, startup, dan personal brand menghadirkan software, visual, dan campaign yang terasa premium—manis di first impression, tajam di hasil.</p>
                         <div class="flex flex-wrap gap-3 text-sm text-white/65">
                             <span class="rounded-full border border-white/10 px-4 py-2">{{ $siteSettings['email'] ?? 'hello@tinycatstudio.tech' }}</span>
                             <span class="rounded-full border border-white/10 px-4 py-2">{{ $siteSettings['whatsapp_number'] ?? '+62 812-3456-7890' }}</span>
@@ -97,20 +97,20 @@
                         @csrf
                         <div>
                             <label for="footer_name" class="mb-2 block text-sm text-white/70">Nama</label>
-                            <input id="footer_name" name="name" type="text" value="{{ old('name') }}" class="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-white outline-none transition focus:border-orange-400" placeholder="Nama Anda">
+                            <input id="footer_name" name="name" type="text" value="{{ old('name') }}" class="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-white outline-none transition focus:border-orange-400" placeholder="Nama Anda / brand">
                             @error('name', 'contact')<p class="mt-2 text-sm text-rose-300">{{ $message }}</p>@enderror
                         </div>
                         <div>
                             <label for="footer_email" class="mb-2 block text-sm text-white/70">Email</label>
-                            <input id="footer_email" name="email" type="email" value="{{ old('email') }}" class="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-white outline-none transition focus:border-orange-400" placeholder="email@bisnisanda.com">
+                            <input id="footer_email" name="email" type="email" value="{{ old('email') }}" class="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-white outline-none transition focus:border-orange-400" placeholder="email@brandanda.com">
                             @error('email', 'contact')<p class="mt-2 text-sm text-rose-300">{{ $message }}</p>@enderror
                         </div>
                         <div>
                             <label for="footer_message" class="mb-2 block text-sm text-white/70">Pesan</label>
-                            <textarea id="footer_message" name="message" rows="4" class="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-white outline-none transition focus:border-orange-400" placeholder="Ceritakan kebutuhan bisnis Anda">{{ old('message') }}</textarea>
+                            <textarea id="footer_message" name="message" rows="4" class="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-white outline-none transition focus:border-orange-400" placeholder="Ceritakan kebutuhan project Anda. Tenang, kami hanya menggigit bug, bukan klien.">{{ old('message') }}</textarea>
                             @error('message', 'contact')<p class="mt-2 text-sm text-rose-300">{{ $message }}</p>@enderror
                         </div>
-                        <button type="submit" class="inline-flex w-full items-center justify-center rounded-full bg-white px-5 py-3 font-semibold text-neutral-950 transition hover:bg-orange-500 hover:text-white">Kirim Pesan</button>
+                        <button type="submit" class="inline-flex w-full items-center justify-center rounded-full bg-white px-5 py-3 font-semibold text-neutral-950 transition hover:bg-orange-500 hover:text-white">Kirim ke TinyCatStudio</button>
                     </form>
                 </div>
             </footer>
