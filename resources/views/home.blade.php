@@ -126,39 +126,39 @@
         $supportingPortfolios = $featuredPortfolios->skip(1)->take(2);
     @endphp
 
-    <section class="section-noise relative mx-auto max-w-7xl px-6 pb-10 pt-16 lg:px-8 lg:pb-16 lg:pt-24">
+    <section class="section-noise relative mx-auto max-w-7xl px-4 pb-8 pt-12 sm:px-6 sm:pb-10 sm:pt-16 lg:px-8 lg:pb-16 lg:pt-24">
         <div class="grid-pattern pointer-events-none absolute inset-0 -z-20 opacity-35"></div>
-        <div class="ambient-orb ambient-orb--orange left-[2%] top-24 -z-10 h-56 w-56"></div>
-        <div class="ambient-orb ambient-orb--white right-[8%] top-10 -z-10 h-44 w-44"></div>
-        <div class="ambient-orb ambient-orb--orange bottom-8 right-[18%] -z-10 h-48 w-48"></div>
+        <div class="ambient-orb ambient-orb--orange left-[2%] top-24 -z-10 hidden h-56 w-56 sm:block"></div>
+        <div class="ambient-orb ambient-orb--white right-[8%] top-10 -z-10 hidden h-44 w-44 sm:block"></div>
+        <div class="ambient-orb ambient-orb--orange bottom-8 right-[18%] -z-10 hidden h-48 w-48 sm:block"></div>
 
-        <div class="grid gap-12 lg:grid-cols-[1.02fr_0.98fr] lg:items-center">
+        <div class="grid gap-10 sm:gap-12 md:grid-cols-[0.94fr_1.06fr] md:items-start lg:grid-cols-[1.02fr_0.98fr] lg:items-center">
             <div class="space-y-8" data-reveal="left">
-                <span class="inline-flex rounded-full border border-orange-400/30 bg-orange-500/10 px-4 py-2 text-xs font-semibold tracking-[0.35em] text-orange-300">PREMIUM SOFTWARE HOUSE</span>
+                <span class="inline-flex rounded-full border border-orange-400/30 bg-orange-500/10 px-4 py-2 text-[11px] font-semibold tracking-[0.3em] text-orange-300 sm:text-xs sm:tracking-[0.35em]">PREMIUM SOFTWARE HOUSE</span>
 
                 <div class="space-y-6">
-                    <h1 class="max-w-5xl text-5xl font-semibold leading-[0.98] text-white md:text-6xl xl:text-[5.2rem]">
+                    <h1 class="max-w-5xl text-4xl font-semibold leading-[0.98] text-white sm:text-5xl md:text-[3.75rem] lg:text-6xl xl:text-[5.2rem]">
                         Website, mobile app, dan brand assets yang
                         <span class="bg-gradient-to-r from-white via-orange-200 to-orange-400 bg-clip-text text-transparent">terlihat elegan</span>
                         dan bekerja presisi untuk growth.
                     </h1>
-                    <p class="max-w-2xl text-lg leading-8 text-white/65">
+                    <p class="max-w-2xl text-base leading-7 text-white/65 sm:text-lg sm:leading-8">
                         TinyCatStudio adalah software house premium untuk website, aplikasi mobile, logo design, graphic design, dan jasa iklan—tenang di tampilan, tajam di eksekusi, sedikit seperti tiny cat yang kelihatan manis tapi refleksnya cepat.
                     </p>
                 </div>
 
-                <div class="flex flex-wrap gap-4">
-                    <a href="#consultation" class="inline-flex items-center rounded-full bg-orange-500 px-6 py-3.5 text-sm font-semibold text-white shadow-[0_18px_48px_rgba(255,122,0,0.28)] transition hover:-translate-y-0.5 hover:bg-orange-400">Mulai Brief Project</a>
-                    <a href="#portfolio" class="inline-flex items-center rounded-full border border-white/15 px-6 py-3.5 text-sm font-semibold text-white transition hover:border-white/40 hover:bg-white/5">Lihat Case Study</a>
+                <div class="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4">
+                    <a href="#consultation" class="inline-flex w-full items-center justify-center rounded-full bg-orange-500 px-6 py-3.5 text-sm font-semibold text-white shadow-[0_18px_48px_rgba(255,122,0,0.28)] transition hover:-translate-y-0.5 hover:bg-orange-400 sm:w-auto">Mulai Brief Project</a>
+                    <a href="#portfolio" class="inline-flex w-full items-center justify-center rounded-full border border-white/15 px-6 py-3.5 text-sm font-semibold text-white transition hover:border-white/40 hover:bg-white/5 sm:w-auto">Lihat Case Study</a>
                 </div>
 
                 <div class="flex flex-wrap gap-3">
                     @foreach ($trustPills as $pill)
-                        <span class="rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-sm text-white/70">{{ $pill }}</span>
+                        <span class="rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-xs text-white/70 sm:text-sm">{{ $pill }}</span>
                     @endforeach
                 </div>
 
-                <div class="grid gap-4 md:grid-cols-3">
+                <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                     @foreach ($heroSignals as $signal)
                         <div class="luxury-panel rounded-[1.5rem] border border-white/10 p-5 backdrop-blur-sm" style="transition-delay: {{ $loop->index * 90 }}ms" data-reveal data-tilt-card data-tilt-intensity="6">
                             <p class="text-xs uppercase tracking-[0.3em] text-white/35">{{ $signal['label'] }}</p>
@@ -187,28 +187,28 @@
                     CURATED DIGITAL CRAFT
                 </div>
 
-                <div class="luxury-panel parallax-layer relative overflow-hidden rounded-[2.6rem] border border-white/10 p-6 shadow-[0_35px_120px_rgba(0,0,0,0.48)] backdrop-blur-xl lg:p-8" data-parallax="16" data-rotate="10" data-tilt-card data-tilt-intensity="9">
+                <div class="luxury-panel parallax-layer relative overflow-hidden rounded-[2.3rem] border border-white/10 p-5 shadow-[0_35px_120px_rgba(0,0,0,0.48)] backdrop-blur-xl sm:p-6 lg:p-8" data-parallax="16" data-rotate="10" data-tilt-card data-tilt-intensity="9">
                     <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,122,0,0.18),transparent_28%)]"></div>
                     <div class="absolute inset-0 bg-[linear-gradient(145deg,rgba(255,255,255,0.06),rgba(255,255,255,0.01))]"></div>
                     <div class="absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-orange-400/70 to-transparent"></div>
 
                     <div class="relative space-y-6">
-                        <div class="flex items-start justify-between gap-4">
+                        <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                             <div>
                                 <p class="text-sm font-semibold tracking-[0.35em] text-orange-300">TINYCATSTUDIO</p>
-                                <h2 class="mt-4 max-w-sm text-3xl font-semibold text-white">Software house untuk brand yang ingin tampil mahal, stabil, dan terlalu meyakinkan untuk diabaikan.</h2>
+                                <h2 class="mt-4 max-w-sm text-2xl font-semibold text-white sm:text-3xl">Software house untuk brand yang ingin tampil mahal, stabil, dan terlalu meyakinkan untuk diabaikan.</h2>
                             </div>
-                            <span class="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold text-white/65">Quiet luxury</span>
+                            <span class="w-fit rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold text-white/65">Quiet luxury</span>
                         </div>
 
                         <div class="grid gap-4 md:grid-cols-[1.15fr_0.85fr]">
-                            <div class="rounded-[2rem] border border-white/10 bg-neutral-950/80 p-5 lg:p-6">
-                                <div class="flex items-center justify-between gap-4 rounded-2xl border border-white/10 bg-white/5 px-4 py-4">
+                            <div class="rounded-[2rem] border border-white/10 bg-neutral-950/80 p-4 sm:p-5 lg:p-6">
+                                <div class="flex flex-col gap-4 rounded-2xl border border-white/10 bg-white/5 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
                                     <div>
                                         <p class="text-xs uppercase tracking-[0.3em] text-white/40">Core Service</p>
                                         <p class="mt-2 text-base font-semibold text-white">Website • Mobile App • Logo • Graphic • Ads</p>
                                     </div>
-                                    <span class="rounded-full bg-orange-500 px-3 py-1 text-xs font-semibold text-white">Open for Build</span>
+                                    <span class="w-fit rounded-full bg-orange-500 px-3 py-1 text-xs font-semibold text-white">Open for Build</span>
                                 </div>
 
                                 <div class="mt-5 grid gap-4 sm:grid-cols-2">
@@ -263,7 +263,7 @@
     </section>
 
     <section class="mx-auto max-w-7xl px-6 py-16 lg:px-8 lg:py-20">
-        <div class="mb-10 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between" data-reveal>
+        <div class="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between" data-reveal>
             <div class="max-w-3xl space-y-4">
                 <span class="text-sm font-semibold uppercase tracking-[0.35em] text-orange-300">Why TinyCatStudio</span>
                 <h2 class="text-3xl font-semibold text-white md:text-4xl">Nama boleh TinyCatStudio, tapi standar craft, code, dan conversion-nya jelas tidak kecil.</h2>
@@ -271,7 +271,7 @@
             <p class="max-w-2xl text-white/65">Kami cocok untuk bisnis yang ingin satu partner premium untuk software development, design system, dan campaign yang saling menguatkan dari launch sampai growth.</p>
         </div>
 
-        <div class="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+        <div class="grid gap-6 md:grid-cols-[1.04fr_0.96fr] lg:grid-cols-[1.1fr_0.9fr]">
             <div class="luxury-panel rounded-[2.25rem] border border-white/10 p-8 shadow-[0_24px_80px_rgba(0,0,0,0.35)]" data-reveal="left" data-tilt-card data-tilt-intensity="5">
                 <div class="max-w-2xl space-y-4">
                     <span class="inline-flex rounded-full border border-orange-400/25 bg-orange-500/10 px-4 py-2 text-xs font-semibold tracking-[0.3em] text-orange-200">ONE STRATEGIC PARTNER</span>
@@ -279,7 +279,7 @@
                     <p class="text-white/65">Dari website, aplikasi mobile, logo, graphic design, sampai campaign iklan, semuanya dikerjakan dengan standar visual yang konsisten dan alur kerja yang efisien.</p>
                 </div>
 
-                <div class="mt-8 grid gap-4 md:grid-cols-3">
+                <div class="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                     @foreach ($engagementModes as $mode)
                         <div class="rounded-[1.5rem] border border-white/10 bg-black/25 p-5">
                             <p class="text-sm font-semibold text-white">{{ $mode['title'] }}</p>
@@ -315,18 +315,18 @@
             <p class="max-w-2xl text-white/65">Anda tidak perlu memecah project ke banyak vendor. TinyCatStudio menyatukan software development, design, branding, dan ads dalam workflow yang lebih tenang dan lebih presisi.</p>
         </div>
 
-        <div class="grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
+        <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
             @forelse ($services as $service)
-                <article class="luxury-panel hover-lift group rounded-[2rem] border border-white/10 p-6 shadow-[0_16px_60px_rgba(0,0,0,0.22)]" style="transition-delay: {{ $loop->index * 80 }}ms" data-reveal data-tilt-card data-tilt-intensity="5">
+                <article class="luxury-panel hover-lift group rounded-[2rem] border border-white/10 p-5 shadow-[0_16px_60px_rgba(0,0,0,0.22)] sm:p-6" style="transition-delay: {{ $loop->index * 80 }}ms" data-reveal data-tilt-card data-tilt-intensity="5">
                     <div class="absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-orange-400/70 to-transparent opacity-0 transition duration-300 group-hover:opacity-100"></div>
-                    <div class="mb-6 flex items-center justify-between gap-4">
-                        <div class="flex h-14 w-14 items-center justify-center rounded-2xl border border-orange-400/25 bg-orange-500/10 text-sm font-bold tracking-[0.3em] text-orange-300">
+                    <div class="mb-6 flex flex-wrap items-start justify-between gap-4">
+                        <div class="flex h-12 w-12 items-center justify-center rounded-2xl border border-orange-400/25 bg-orange-500/10 text-sm font-bold tracking-[0.3em] text-orange-300 sm:h-14 sm:w-14">
                             {{ $service->icon ?: strtoupper(substr($service->name, 0, 2)) }}
                         </div>
                         <span class="rounded-full border border-white/10 px-3 py-1 text-xs text-white/45">{{ $service->pricingPackages->count() }} paket</span>
                     </div>
 
-                    <h3 class="text-2xl font-semibold text-white">{{ $service->name }}</h3>
+                    <h3 class="text-xl font-semibold text-white break-words sm:text-2xl">{{ $service->name }}</h3>
                     <p class="mt-4 text-sm leading-7 text-white/65">{{ $service->description }}</p>
 
                     <div class="mt-6 space-y-3">
@@ -338,12 +338,12 @@
                         @endforeach
                     </div>
 
-                    <div class="mt-6 flex items-center justify-between gap-4 border-t border-white/10 pt-5">
+                    <div class="mt-6 flex flex-col items-start gap-4 border-t border-white/10 pt-5 sm:flex-row sm:items-center sm:justify-between">
                         <div>
                             <p class="text-xs uppercase tracking-[0.3em] text-white/40">Mulai dari</p>
                             <p class="mt-2 text-xl font-semibold text-white">Rp {{ number_format((float) ($service->pricingPackages->min('price') ?? 0), 0, ',', '.') }}</p>
                         </div>
-                        <a href="{{ route('services.show', $service) }}" class="inline-flex items-center rounded-full border border-white/10 px-4 py-2 text-sm font-semibold text-white transition hover:border-orange-400/30 hover:bg-orange-500/10">Pelajari Layanan</a>
+                        <a href="{{ route('services.show', $service) }}" class="inline-flex w-full items-center justify-center rounded-full border border-white/10 px-4 py-2 text-sm font-semibold text-white transition hover:border-orange-400/30 hover:bg-orange-500/10 sm:w-auto">Pelajari Layanan</a>
                     </div>
                 </article>
             @empty
@@ -361,7 +361,7 @@
 
             <div class="relative">
                 <div class="absolute left-0 right-0 top-8 hidden h-px bg-gradient-to-r from-transparent via-orange-400/30 to-transparent lg:block"></div>
-                <div class="grid gap-5 lg:grid-cols-4">
+                <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
                     @foreach ($workflow as $item)
                         <article class="luxury-panel rounded-[1.8rem] border border-white/10 p-5" style="transition-delay: {{ $loop->index * 90 }}ms" data-reveal>
                             <div class="mb-5 flex h-16 w-16 items-center justify-center rounded-2xl border border-orange-400/25 bg-orange-500/10 text-sm font-semibold tracking-[0.35em] text-orange-300">{{ $item['step'] }}</div>
@@ -383,13 +383,13 @@
             <a href="{{ route('portfolios.index') }}" class="inline-flex items-center text-sm font-semibold text-white/75 transition hover:text-orange-300">Lihat semua case study</a>
         </div>
 
-        <div class="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+        <div class="grid gap-6 md:grid-cols-[1.04fr_0.96fr] lg:grid-cols-[1.1fr_0.9fr]">
             @if ($featuredPortfolio)
                 <article class="group luxury-panel overflow-hidden rounded-[2.5rem] border border-white/10 shadow-[0_28px_90px_rgba(0,0,0,0.32)]" data-reveal="left" data-tilt-card data-tilt-intensity="6">
-                    <div class="relative min-h-[440px] overflow-hidden">
+                    <div class="relative min-h-[620px] overflow-hidden sm:min-h-[440px]">
                         <img src="{{ $featuredPortfolio->thumbnail }}" alt="{{ $featuredPortfolio->title }}" class="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105">
                         <div class="absolute inset-0 bg-gradient-to-t from-black via-black/55 to-transparent"></div>
-                        <div class="absolute inset-x-0 bottom-0 p-8 lg:p-10">
+                        <div class="absolute inset-x-0 bottom-0 p-6 sm:p-8 lg:p-10">
                             <div class="max-w-2xl space-y-5">
                                 <div class="flex flex-wrap items-center gap-3 text-sm">
                                     <span class="rounded-full border border-orange-400/30 bg-orange-500/10 px-3 py-1 font-semibold text-orange-200">{{ $featuredPortfolio->service->name }}</span>
@@ -400,7 +400,7 @@
                                 </div>
 
                                 <div>
-                                    <h3 class="text-3xl font-semibold text-white lg:text-4xl">{{ $featuredPortfolio->title }}</h3>
+                                    <h3 class="text-2xl font-semibold text-white break-words sm:text-3xl lg:text-4xl">{{ $featuredPortfolio->title }}</h3>
                                     <p class="mt-4 max-w-xl text-sm leading-7 text-white/75">{{ \Illuminate\Support\Str::limit($featuredPortfolio->description, 220) }}</p>
                                 </div>
 
@@ -412,9 +412,9 @@
                                     @endforeach
                                 </div>
 
-                                <div class="flex flex-wrap gap-4 pt-2">
-                                    <a href="{{ route('portfolios.show', $featuredPortfolio) }}" class="inline-flex items-center rounded-full bg-white px-5 py-3 text-sm font-semibold text-neutral-950 transition hover:bg-orange-500 hover:text-white">Pelajari Case Study</a>
-                                    <a href="#consultation" class="inline-flex items-center rounded-full border border-white/15 px-5 py-3 text-sm font-semibold text-white transition hover:border-orange-400/30 hover:bg-orange-500/10">Saya Mau Hasil Selevel Ini</a>
+                                <div class="flex flex-col gap-3 pt-2 sm:flex-row sm:flex-wrap sm:gap-4">
+                                    <a href="{{ route('portfolios.show', $featuredPortfolio) }}" class="inline-flex w-full items-center justify-center rounded-full bg-white px-5 py-3 text-sm font-semibold text-neutral-950 transition hover:bg-orange-500 hover:text-white sm:w-auto">Pelajari Case Study</a>
+                                    <a href="#consultation" class="inline-flex w-full items-center justify-center rounded-full border border-white/15 px-5 py-3 text-sm font-semibold text-white transition hover:border-orange-400/30 hover:bg-orange-500/10 sm:w-auto">Saya Mau Hasil Selevel Ini</a>
                                 </div>
                             </div>
                         </div>
@@ -443,15 +443,15 @@
                                 <img src="{{ $portfolio->thumbnail }}" alt="{{ $portfolio->title }}" class="h-full min-h-[220px] w-full object-cover transition duration-700 group-hover:scale-105">
                             </div>
                             <div class="space-y-4 p-6">
-                                <div class="flex items-center justify-between gap-3">
+                                <div class="flex flex-wrap items-center justify-between gap-3">
                                     <span class="rounded-full border border-orange-400/30 bg-orange-500/10 px-3 py-1 text-xs font-semibold text-orange-200">{{ $portfolio->service->name }}</span>
                                     @if ($portfolio->client_name)
-                                        <span class="text-sm text-white/45">{{ $portfolio->client_name }}</span>
+                                        <span class="text-sm text-white/45 break-words">{{ $portfolio->client_name }}</span>
                                     @endif
                                 </div>
-                                <h3 class="text-2xl font-semibold text-white">{{ $portfolio->title }}</h3>
+                                <h3 class="text-xl font-semibold text-white break-words sm:text-2xl">{{ $portfolio->title }}</h3>
                                 <p class="text-sm leading-7 text-white/60">{{ \Illuminate\Support\Str::limit($portfolio->description, 130) }}</p>
-                                <a href="{{ route('portfolios.show', $portfolio) }}" class="inline-flex items-center rounded-full border border-white/10 px-4 py-2 text-sm font-semibold text-white transition hover:border-orange-400/30 hover:bg-orange-500/10">Lihat Detail Project</a>
+                                <a href="{{ route('portfolios.show', $portfolio) }}" class="inline-flex w-full items-center justify-center rounded-full border border-white/10 px-4 py-2 text-sm font-semibold text-white transition hover:border-orange-400/30 hover:bg-orange-500/10 sm:w-auto">Lihat Detail Project</a>
                             </div>
                         </div>
                     </article>
@@ -462,7 +462,7 @@
         </div>
 
         <div class="luxury-panel mt-8 rounded-[2rem] border border-orange-400/25 p-6 lg:p-8" data-reveal>
-            <div class="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+            <div class="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
                 <div class="max-w-2xl">
                     <span class="text-xs font-semibold uppercase tracking-[0.3em] text-orange-200">Next Featured Case</span>
                     <h3 class="mt-3 text-2xl font-semibold text-white">Ingin project Anda jadi case study berikutnya yang bikin calon klien berhenti scroll?</h3>
@@ -477,16 +477,16 @@
     </section>
 
     <section class="mx-auto max-w-7xl px-6 py-16 lg:px-8">
-        <div class="grid gap-6 lg:grid-cols-[1fr_1fr]">
+        <div class="grid gap-6 md:grid-cols-[1fr_1fr]">
             @if ($featuredTestimonial)
-                <article class="luxury-panel rounded-[2.25rem] border border-white/10 p-8 shadow-[0_24px_80px_rgba(0,0,0,0.32)]" data-reveal="left" data-tilt-card data-tilt-intensity="4">
+                <article class="luxury-panel rounded-[2.25rem] border border-white/10 p-6 shadow-[0_24px_80px_rgba(0,0,0,0.32)] sm:p-8" data-reveal="left" data-tilt-card data-tilt-intensity="4">
                     <span class="text-sm font-semibold uppercase tracking-[0.35em] text-orange-300">Client Voice</span>
                     <div class="mt-6 flex items-center gap-1 text-orange-300">
                         @for ($i = 0; $i < $featuredTestimonial->rating; $i++)
                             <span>★</span>
                         @endfor
                     </div>
-                    <p class="mt-6 text-2xl font-medium leading-10 text-white">“{{ $featuredTestimonial->message }}”</p>
+                    <p class="mt-6 text-xl font-medium leading-8 text-white sm:text-2xl sm:leading-10">“{{ $featuredTestimonial->message }}”</p>
                     <div class="mt-8 border-t border-white/10 pt-6">
                         <p class="font-semibold text-white">{{ $featuredTestimonial->name }}</p>
                         <p class="text-sm text-white/45">{{ $featuredTestimonial->company ?: 'Klien TinyCatStudio' }}</p>
@@ -542,7 +542,7 @@
             </div>
         </div>
 
-        <div class="mb-8 grid gap-4 md:grid-cols-3">
+        <div class="mb-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             @foreach ($pricingAssurances as $assurance)
                 <div class="luxury-panel rounded-[1.6rem] border border-white/10 p-5 text-sm leading-7 text-white/70" style="transition-delay: {{ $loop->index * 80 }}ms" data-reveal>
                     {{ $assurance }}
@@ -550,27 +550,27 @@
             @endforeach
         </div>
 
-        <div class="grid gap-6 lg:grid-cols-3">
+        <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
             @forelse ($featuredPackages as $package)
-                <article x-show="activePricing === 'all' || activePricing === '{{ $package->service->slug }}'" x-transition.opacity.duration.400ms class="luxury-panel pricing-glow hover-lift rounded-[2rem] border {{ $package->is_popular ? 'border-orange-400/40' : 'border-white/10' }} p-6 shadow-[0_18px_70px_rgba(0,0,0,0.22)]" style="transition-delay: {{ $loop->index * 80 }}ms" data-reveal data-tilt-card data-tilt-intensity="5">
-                    <div class="flex items-center justify-between gap-3">
-                        <span class="text-sm font-semibold tracking-[0.2em] text-orange-300">{{ strtoupper($package->service->name) }}</span>
+                <article x-show="activePricing === 'all' || activePricing === '{{ $package->service->slug }}'" x-transition.opacity.duration.400ms class="luxury-panel pricing-glow hover-lift rounded-[2rem] border {{ $package->is_popular ? 'border-orange-400/40' : 'border-white/10' }} p-5 shadow-[0_18px_70px_rgba(0,0,0,0.22)] sm:p-6" style="transition-delay: {{ $loop->index * 80 }}ms" data-reveal data-tilt-card data-tilt-intensity="5">
+                    <div class="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
+                        <span class="text-sm font-semibold tracking-[0.2em] text-orange-300 break-words">{{ strtoupper($package->service->name) }}</span>
                         @if ($package->is_popular)
                             <span class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-neutral-950">Best Seller</span>
                         @endif
                     </div>
 
                     <div class="mt-5">
-                        <h3 class="text-2xl font-semibold text-white">{{ $package->name }}</h3>
+                        <h3 class="text-2xl font-semibold text-white break-words">{{ $package->name }}</h3>
                         <p class="mt-3 text-sm leading-7 text-white/65">{{ $package->description }}</p>
                     </div>
 
-                    <div class="mt-6 flex items-end justify-between gap-4 border-b border-white/10 pb-6">
+                    <div class="mt-6 flex flex-col items-start gap-4 border-b border-white/10 pb-6 sm:flex-row sm:items-end sm:justify-between">
                         <div>
                             <p class="text-xs uppercase tracking-[0.3em] text-white/35">Investasi mulai dari</p>
-                            <p class="mt-2 text-4xl font-semibold text-white">Rp {{ number_format((float) $package->price, 0, ',', '.') }}</p>
+                            <p class="mt-2 text-3xl font-semibold text-white sm:text-4xl">Rp {{ number_format((float) $package->price, 0, ',', '.') }}</p>
                         </div>
-                        <span class="rounded-full border border-white/10 px-3 py-2 text-xs font-semibold text-white/65">Custom scope available</span>
+                        <span class="w-full rounded-full border border-white/10 px-3 py-2 text-center text-xs font-semibold text-white/65 sm:w-auto">Custom scope available</span>
                     </div>
 
                     <div class="mt-6 rounded-[1.5rem] border border-white/10 bg-black/25 p-4">
@@ -598,13 +598,13 @@
         </div>
 
         <div class="luxury-panel mt-8 rounded-[2rem] border border-white/10 p-6 lg:p-8" data-reveal>
-            <div class="grid gap-6 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
+            <div class="grid gap-6 md:grid-cols-[1.05fr_0.95fr] md:items-center lg:grid-cols-[1.15fr_0.85fr]">
                 <div>
                     <span class="text-xs font-semibold uppercase tracking-[0.3em] text-orange-300">Need custom proposal?</span>
                     <h3 class="mt-3 text-2xl font-semibold text-white">Kalau kebutuhan Anda lebih kompleks, kami siapkan proposal yang terasa tailor-made, bukan copy-paste.</h3>
                     <p class="mt-3 text-sm leading-7 text-white/65">Ideal untuk website multi-page, aplikasi custom, rebranding menyeluruh, graphic system, funnel iklan, atau kombinasi beberapa layanan sekaligus.</p>
                 </div>
-                <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+                <div class="grid gap-3 sm:grid-cols-2 md:grid-cols-1">
                     <a href="#consultation" class="inline-flex items-center justify-center rounded-full bg-white px-5 py-3 text-sm font-semibold text-neutral-950 transition hover:bg-orange-500 hover:text-white">Minta Proposal Custom</a>
                     <a href="https://wa.me/{{ preg_replace('/\D+/', '', $siteSettings['whatsapp_number'] ?? '6281234567890') }}" target="_blank" rel="noreferrer" class="inline-flex items-center justify-center rounded-full border border-white/10 px-5 py-3 text-sm font-semibold text-white transition hover:border-orange-400/30 hover:bg-orange-500/10">Diskusi via WhatsApp</a>
                 </div>
@@ -613,7 +613,7 @@
     </section>
 
     <section id="faq" class="mx-auto max-w-7xl px-6 py-16 lg:px-8">
-        <div class="grid gap-6 lg:grid-cols-[0.75fr_1.25fr]">
+        <div class="grid gap-6 md:grid-cols-[0.82fr_1.18fr] lg:grid-cols-[0.75fr_1.25fr]">
             <div class="space-y-4" data-reveal="left">
                 <span class="text-sm font-semibold uppercase tracking-[0.35em] text-orange-300">FAQ</span>
                 <h2 class="text-3xl font-semibold text-white md:text-4xl">Pertanyaan yang biasanya muncul sebelum brand Anda build bareng TinyCatStudio.</h2>
@@ -644,7 +644,7 @@
             <a href="{{ route('blog.index') }}" class="inline-flex items-center text-sm font-semibold text-white/75 transition hover:text-orange-300">Lihat semua insight</a>
         </div>
 
-        <div class="grid gap-6 lg:grid-cols-3">
+        <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
             @forelse ($blogPosts as $post)
                 <article class="group luxury-panel hover-lift overflow-hidden rounded-[2rem] border border-white/10 shadow-[0_16px_60px_rgba(0,0,0,0.22)]" style="transition-delay: {{ $loop->index * 90 }}ms" data-reveal data-tilt-card data-tilt-intensity="4">
                     <div class="overflow-hidden">
@@ -668,7 +668,7 @@
     </section>
 
     <section id="consultation" class="mx-auto max-w-7xl px-6 py-16 lg:px-8 lg:pb-24">
-        <div class="grid gap-6 lg:grid-cols-[0.78fr_1.22fr]">
+        <div class="grid gap-6 md:grid-cols-[0.92fr_1.08fr] lg:grid-cols-[0.78fr_1.22fr]">
             <div class="luxury-panel rounded-[2.25rem] border border-white/10 p-8 shadow-[0_24px_80px_rgba(0,0,0,0.32)]" data-reveal="left">
                 <span class="text-sm font-semibold uppercase tracking-[0.35em] text-orange-300">Project Brief</span>
                 <h2 class="mt-5 text-3xl font-semibold text-white">Ceritakan apa yang ingin Anda bangun, kami bantu susun solusi yang paling pas.</h2>

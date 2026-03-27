@@ -8,6 +8,7 @@ Alpine.start();
 
 window.addEventListener('DOMContentLoaded', () => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches || window.matchMedia('(hover: none)').matches;
     const revealElements = document.querySelectorAll('[data-reveal]');
 
     if (revealElements.length) {
@@ -53,7 +54,7 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    if (prefersReducedMotion) {
+    if (prefersReducedMotion || isCoarsePointer) {
         return;
     }
 

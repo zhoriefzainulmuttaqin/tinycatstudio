@@ -15,15 +15,23 @@
 @layer base {
     html {
         scroll-behavior: smooth;
+        scroll-padding-top: 6.5rem;
     }
 
     body {
+        position: relative;
+        overflow-x: hidden;
         background:
             radial-gradient(circle at top left, rgba(255, 122, 0, 0.22), transparent 24%),
             radial-gradient(circle at 85% 12%, rgba(255, 255, 255, 0.08), transparent 22%),
             linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 26%),
             #09090b;
         color: #fafafa;
+    }
+
+    section[id],
+    footer[id] {
+        scroll-margin-top: 6.5rem;
     }
 
     [x-cloak] {
@@ -37,10 +45,34 @@
 }
 
 @layer components {
+    .site-background {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: -20;
+        background-image:
+            linear-gradient(rgba(255, 122, 0, 0.12) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 122, 0, 0.12) 1px, transparent 1px),
+            radial-gradient(circle at top, rgba(255, 122, 0, 0.16), transparent 32%);
+        background-size: 64px 64px, 64px 64px, auto;
+        mask-image: radial-gradient(circle at center, rgba(0, 0, 0, 0.92) 20%, rgba(0, 0, 0, 0.72) 58%, transparent 100%);
+        opacity: 0.9;
+    }
+
+    .site-background::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background:
+            linear-gradient(180deg, rgba(255, 122, 0, 0.12), transparent 20%),
+            radial-gradient(circle at 50% 0%, rgba(255, 122, 0, 0.12), transparent 30%);
+        opacity: 0.7;
+    }
+
     .grid-pattern {
         background-image:
-            linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+            linear-gradient(rgba(255, 122, 0, 0.12) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 122, 0, 0.12) 1px, transparent 1px);
         background-size: 72px 72px;
         mask-image: radial-gradient(circle at center, black, transparent 78%);
     }
@@ -212,6 +244,57 @@
 
     100% {
         transform: translateX(-50%);
+    }
+}
+
+@media (max-width: 639px) {
+    .site-background {
+        background-size: 40px 40px, 40px 40px, auto;
+        opacity: 0.72;
+    }
+
+    .ambient-orb {
+        display: none;
+    }
+
+    .marquee-track {
+        width: auto;
+        flex-wrap: wrap;
+        justify-content: center;
+        animation: none;
+        white-space: normal;
+    }
+
+    .section-noise::before {
+        opacity: 0.05;
+    }
+
+    h1.text-5xl,
+    h1.text-4xl {
+        font-size: 2.25rem;
+        line-height: 1.05;
+    }
+
+    h2.text-3xl,
+    h3.text-3xl {
+        font-size: 1.75rem;
+        line-height: 1.15;
+    }
+
+    h2.text-2xl,
+    h3.text-2xl {
+        font-size: 1.375rem;
+        line-height: 1.2;
+    }
+}
+
+@media (hover: none), (pointer: coarse) {
+    .luxury-panel::after {
+        display: none;
+    }
+
+    .hover-lift:hover {
+        transform: none;
     }
 }
 
