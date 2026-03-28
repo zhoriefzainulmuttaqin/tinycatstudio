@@ -6,10 +6,82 @@ window.Alpine = Alpine;
 
 Alpine.start();
 
+const themeStorageKey = 'tinycatstudio-theme';
+const themeMediaQuery = window.matchMedia('(prefers-color-scheme: light)');
+
+const getStoredTheme = () => {
+    try {
+        const theme = window.localStorage.getItem(themeStorageKey);
+
+        return theme === 'light' || theme === 'dark' ? theme : null;
+    } catch {
+        return null;
+    }
+};
+
+const getPreferredTheme = () => getStoredTheme() || (themeMediaQuery.matches ? 'light' : 'dark');
+
+const updateThemeControls = (theme) => {
+    const currentThemeLabel =
+        theme === 'light' ? 'Mode terang aktif dengan ikon kucing putih' : 'Mode gelap aktif dengan ikon kucing hitam';
+    const nextThemeLabel =
+        theme === 'light' ? 'Aktifkan mode gelap dengan ikon kucing hitam' : 'Aktifkan mode terang dengan ikon kucing putih';
+
+    document.querySelectorAll('[data-theme-current]').forEach((element) => {
+        element.textContent = currentThemeLabel;
+    });
+
+    document.querySelectorAll('[data-theme-next]').forEach((element) => {
+        element.textContent = nextThemeLabel;
+    });
+
+    document.querySelectorAll('[data-theme-toggle]').forEach((button) => {
+        button.setAttribute('aria-pressed', theme === 'light' ? 'true' : 'false');
+        button.setAttribute('aria-label', nextThemeLabel);
+        button.setAttribute('title', nextThemeLabel);
+    });
+};
+
+const applyTheme = (theme) => {
+    document.documentElement.setAttribute('data-theme', theme);
+    document.documentElement.style.colorScheme = theme;
+    updateThemeControls(theme);
+};
+
+const persistTheme = (theme) => {
+    try {
+        window.localStorage.setItem(themeStorageKey, theme);
+    } catch {
+        // Ignore storage errors.
+    }
+};
+
+applyTheme(getPreferredTheme());
+
+themeMediaQuery.addEventListener('change', (event) => {
+    if (getStoredTheme()) {
+        return;
+    }
+
+    applyTheme(event.matches ? 'light' : 'dark');
+});
+
 window.addEventListener('DOMContentLoaded', () => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches || window.matchMedia('(hover: none)').matches;
     const revealElements = document.querySelectorAll('[data-reveal]');
+    const themeToggleButtons = document.querySelectorAll('[data-theme-toggle]');
+
+    applyTheme(getPreferredTheme());
+
+    themeToggleButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            const nextTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+
+            persistTheme(nextTheme);
+            applyTheme(nextTheme);
+        });
+    });
 
     if (revealElements.length) {
         if (prefersReducedMotion || !('IntersectionObserver' in window)) {

@@ -10,6 +10,22 @@
         >
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600,700,800" rel="stylesheet" />
+        <script>
+            (() => {
+                try {
+                    const storedTheme = localStorage.getItem('tinycatstudio-theme');
+                    const theme = storedTheme === 'light' || storedTheme === 'dark'
+                        ? storedTheme
+                        : (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+
+                    document.documentElement.setAttribute('data-theme', theme);
+                    document.documentElement.style.colorScheme = theme;
+                } catch {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    document.documentElement.style.colorScheme = 'dark';
+                }
+            })();
+        </script>
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="min-h-screen bg-neutral-950 text-white antialiased">
@@ -28,7 +44,11 @@
             <header x-data="{ open: false }" class="sticky top-0 z-50 border-b border-orange-400/10 bg-neutral-950/80 shadow-[0_12px_40px_rgba(0,0,0,0.28)] backdrop-blur-xl">
                 <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3.5 sm:px-6 lg:px-8">
                     <a href="{{ route('home') }}" class="flex min-w-0 items-center gap-3">
-                        <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-orange-400/40 bg-orange-500/15 text-xs font-semibold tracking-[0.26em] text-orange-300 sm:h-11 sm:w-11 sm:text-sm sm:tracking-[0.3em]">TCS</span>
+                        @if(!empty($siteSettings['site_logo']))
+                            <img src="{{ asset('storage/' . $siteSettings['site_logo']) }}" alt="{{ $siteSettings['site_name'] ?? 'Logo' }}" class="h-10 w-10 shrink-0 rounded-2xl object-cover sm:h-11 sm:w-11">
+                        @else
+                            <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-orange-400/40 bg-orange-500/15 text-xs font-semibold tracking-[0.26em] text-orange-300 sm:h-11 sm:w-11 sm:text-sm sm:tracking-[0.3em]">TCS</span>
+                        @endif
                         <div class="min-w-0">
                             <p class="truncate text-xs font-semibold tracking-[0.22em] text-white sm:text-sm sm:tracking-[0.25em]">{{ strtoupper($siteSettings['site_name'] ?? 'TinyCatStudio') }}</p>
                             <p class="hidden text-xs text-white/55 sm:block">Software House • Mobile • Design • Ads</p>
@@ -36,32 +56,121 @@
                     </a>
 
                     <nav class="hidden items-center text-white/75 md:flex md:gap-5 md:text-xs lg:gap-8 lg:text-sm">
-                        <a href="{{ $servicesLink }}" class="transition hover:text-white">Layanan</a>
-                        <a href="{{ route('portfolios.index') }}" class="transition hover:text-white">Portfolio</a>
-                        <a href="{{ route('blog.index') }}" class="transition hover:text-white">Blog</a>
-                        <a href="{{ $pricingLink }}" class="transition hover:text-white">Harga</a>
-                        <a href="{{ $contactLink }}" class="transition hover:text-white">Kontak</a>
+                        <a href="{{ $servicesLink }}" class="theme-nav-link transition hover:text-white">Layanan</a>
+                        <a href="{{ route('portfolios.index') }}" class="theme-nav-link transition hover:text-white">Portfolio</a>
+                        <a href="{{ route('blog.index') }}" class="theme-nav-link transition hover:text-white">Blog</a>
+                        <a href="{{ $pricingLink }}" class="theme-nav-link transition hover:text-white">Harga</a>
+                        <a href="{{ $contactLink }}" class="theme-nav-link transition hover:text-white">Kontak</a>
                     </nav>
 
-                    <div class="hidden lg:block">
-                        <a href="https://wa.me/{{ preg_replace('/\D+/', '', $siteSettings['whatsapp_number'] ?? '6281234567890') }}" target="_blank" rel="noreferrer" class="inline-flex items-center rounded-full border border-orange-400/40 bg-orange-500 px-5 py-3 text-sm font-semibold text-white transition hover:bg-orange-400">
+                    <div class="hidden items-center gap-3 md:flex">
+                        <button type="button" data-theme-toggle class="theme-toggle inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-4 py-2.5 text-white shadow-[0_10px_30px_rgba(0,0,0,0.12)] backdrop-blur-sm">
+                            <span class="text-[10px] font-semibold uppercase tracking-[0.24em] text-white/45">Tema</span>
+                            <span class="theme-toggle-icons" aria-hidden="true">
+                                <span class="theme-toggle-chip theme-toggle-chip--light" data-theme-chip="light">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M20 3v10a8 8 0 1 1 -16 0v-10l3.432 3.432a7.963 7.963 0 0 1 4.568 -1.432c1.769 0 3.403 .574 4.728 1.546l3.272 -3.546"></path>
+                                        <path d="M2 16h5l-4 4"></path>
+                                        <path d="M22 16h-5l4 4"></path>
+                                        <path d="M11 16a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+                                        <path d="M9 11v.01"></path>
+                                        <path d="M15 11v.01"></path>
+                                    </svg>
+                                </span>
+                                <span class="theme-toggle-chip theme-toggle-chip--dark" data-theme-chip="dark">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M20 3v10a8 8 0 1 1 -16 0v-10l3.432 3.432a7.963 7.963 0 0 1 4.568 -1.432c1.769 0 3.403 .574 4.728 1.546l3.272 -3.546"></path>
+                                        <path d="M2 16h5l-4 4"></path>
+                                        <path d="M22 16h-5l4 4"></path>
+                                        <path d="M11 16a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+                                        <path d="M9 11v.01"></path>
+                                        <path d="M15 11v.01"></path>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span data-theme-current class="sr-only">Mode gelap aktif dengan ikon kucing hitam</span>
+                            <span data-theme-next class="sr-only">Aktifkan mode terang dengan ikon kucing putih</span>
+                        </button>
+                        <a href="https://wa.me/{{ preg_replace('/\D+/', '', $siteSettings['whatsapp_number'] ?? '6281234567890') }}" target="_blank" rel="noreferrer" class="hidden items-center rounded-full border border-orange-400/40 bg-orange-500 px-5 py-3 text-sm font-semibold text-white transition hover:bg-orange-400 lg:inline-flex">
                             Mulai Brief
                         </a>
                     </div>
 
-                    <button type="button" class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-white/10 text-sm text-white md:hidden" @click="open = !open" aria-label="Buka menu">
-                        <span x-show="!open">Menu</span>
-                        <span x-show="open" x-cloak>Tutup</span>
-                    </button>
+                    <div class="flex items-center gap-2 md:hidden">
+                        <button type="button" data-theme-toggle class="theme-toggle inline-flex items-center gap-2.5 rounded-2xl border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-white">
+                            <span class="text-white/45">Tema</span>
+                            <span class="theme-toggle-icons" aria-hidden="true">
+                                <span class="theme-toggle-chip theme-toggle-chip--light" data-theme-chip="light">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M20 3v10a8 8 0 1 1 -16 0v-10l3.432 3.432a7.963 7.963 0 0 1 4.568 -1.432c1.769 0 3.403 .574 4.728 1.546l3.272 -3.546"></path>
+                                        <path d="M2 16h5l-4 4"></path>
+                                        <path d="M22 16h-5l4 4"></path>
+                                        <path d="M11 16a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+                                        <path d="M9 11v.01"></path>
+                                        <path d="M15 11v.01"></path>
+                                    </svg>
+                                </span>
+                                <span class="theme-toggle-chip theme-toggle-chip--dark" data-theme-chip="dark">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M20 3v10a8 8 0 1 1 -16 0v-10l3.432 3.432a7.963 7.963 0 0 1 4.568 -1.432c1.769 0 3.403 .574 4.728 1.546l3.272 -3.546"></path>
+                                        <path d="M2 16h5l-4 4"></path>
+                                        <path d="M22 16h-5l4 4"></path>
+                                        <path d="M11 16a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+                                        <path d="M9 11v.01"></path>
+                                        <path d="M15 11v.01"></path>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span data-theme-current class="sr-only">Mode gelap aktif dengan ikon kucing hitam</span>
+                            <span data-theme-next class="sr-only">Aktifkan mode terang dengan ikon kucing putih</span>
+                        </button>
+                        <button type="button" class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-white/10 text-sm text-white" @click="open = !open" aria-label="Buka menu">
+                            <span x-show="!open">Menu</span>
+                            <span x-show="open" x-cloak>Tutup</span>
+                        </button>
+                    </div>
                 </div>
 
                 <div x-show="open" x-transition class="border-t border-white/10 px-4 py-5 sm:px-6 md:hidden">
                     <div class="flex flex-col gap-4 text-sm text-white/75">
-                        <a href="{{ $servicesLink }}" @click="open = false">Layanan</a>
-                        <a href="{{ route('portfolios.index') }}" @click="open = false">Portfolio</a>
-                        <a href="{{ route('blog.index') }}" @click="open = false">Blog</a>
-                        <a href="{{ $pricingLink }}" @click="open = false">Harga</a>
-                        <a href="{{ $contactLink }}" @click="open = false">Kontak</a>
+                        <a href="{{ $servicesLink }}" class="theme-nav-link" @click="open = false">Layanan</a>
+                        <a href="{{ route('portfolios.index') }}" class="theme-nav-link" @click="open = false">Portfolio</a>
+                        <a href="{{ route('blog.index') }}" class="theme-nav-link" @click="open = false">Blog</a>
+                        <a href="{{ $pricingLink }}" class="theme-nav-link" @click="open = false">Harga</a>
+                        <a href="{{ $contactLink }}" class="theme-nav-link" @click="open = false">Kontak</a>
+                        <button type="button" data-theme-toggle class="theme-toggle inline-flex w-fit items-center gap-3 rounded-full border border-white/10 bg-white/5 px-4 py-2.5 text-white">
+                            <span class="text-white/45">Tema</span>
+                            <span class="theme-toggle-icons" aria-hidden="true">
+                                <span class="theme-toggle-chip theme-toggle-chip--light" data-theme-chip="light">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M20 3v10a8 8 0 1 1 -16 0v-10l3.432 3.432a7.963 7.963 0 0 1 4.568 -1.432c1.769 0 3.403 .574 4.728 1.546l3.272 -3.546"></path>
+                                        <path d="M2 16h5l-4 4"></path>
+                                        <path d="M22 16h-5l4 4"></path>
+                                        <path d="M11 16a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+                                        <path d="M9 11v.01"></path>
+                                        <path d="M15 11v.01"></path>
+                                    </svg>
+                                </span>
+                                <span class="theme-toggle-chip theme-toggle-chip--dark" data-theme-chip="dark">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M20 3v10a8 8 0 1 1 -16 0v-10l3.432 3.432a7.963 7.963 0 0 1 4.568 -1.432c1.769 0 3.403 .574 4.728 1.546l3.272 -3.546"></path>
+                                        <path d="M2 16h5l-4 4"></path>
+                                        <path d="M22 16h-5l4 4"></path>
+                                        <path d="M11 16a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+                                        <path d="M9 11v.01"></path>
+                                        <path d="M15 11v.01"></path>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span data-theme-current class="sr-only">Mode gelap aktif dengan ikon kucing hitam</span>
+                            <span data-theme-next class="sr-only">Aktifkan mode terang dengan ikon kucing putih</span>
+                        </button>
                         <a href="https://wa.me/{{ preg_replace('/\D+/', '', $siteSettings['whatsapp_number'] ?? '6281234567890') }}" target="_blank" rel="noreferrer" class="inline-flex w-fit rounded-full bg-orange-500 px-5 py-3 font-semibold text-white">
                             Mulai Brief
                         </a>
@@ -84,9 +193,9 @@
             <footer id="contact" class="border-t border-white/10 bg-black/40">
                 <div class="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-[1.05fr_0.95fr] lg:grid-cols-[1.4fr_1fr] lg:px-8">
                     <div class="space-y-5">
-                        <span class="inline-flex rounded-full border border-orange-400/30 bg-orange-500/10 px-4 py-2 text-xs font-semibold tracking-[0.3em] text-orange-300">TINYCATSTUDIO</span>
+                        <span class="inline-flex rounded-full border border-orange-400/30 bg-orange-500/10 px-4 py-2 text-xs font-semibold tracking-[0.3em] text-orange-300">{{ strtoupper($siteSettings['site_name'] ?? 'TINYCATSTUDIO') }}</span>
                         <h2 class="max-w-2xl text-2xl font-semibold text-white sm:text-3xl md:text-4xl">Bangun website, aplikasi, dan brand assets yang terlihat mahal, bergerak rapi, dan siap mengejar growth.</h2>
-                        <p class="max-w-2xl text-sm leading-7 text-white/65 sm:text-base">TinyCatStudio membantu bisnis, startup, dan personal brand menghadirkan software, visual, dan campaign yang terasa premium—manis di first impression, tajam di hasil.</p>
+                        <p class="max-w-2xl text-sm leading-7 text-white/65 sm:text-base">{{ $siteSettings['site_tagline'] ?? 'TinyCatStudio membantu bisnis, startup, dan personal brand menghadirkan software, visual, dan campaign yang terasa premium—manis di first impression, tajam di hasil.' }}</p>
                         <div class="flex flex-wrap gap-3 text-xs text-white/65 sm:text-sm">
                             <span class="break-all rounded-full border border-white/10 px-4 py-2">{{ $siteSettings['email'] ?? 'hello@tinycatstudio.tech' }}</span>
                             <span class="break-all rounded-full border border-white/10 px-4 py-2">{{ $siteSettings['whatsapp_number'] ?? '+62 812-3456-7890' }}</span>

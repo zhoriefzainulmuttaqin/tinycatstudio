@@ -152,23 +152,17 @@
                     <a href="#portfolio" class="inline-flex w-full items-center justify-center rounded-full border border-white/15 px-6 py-3.5 text-sm font-semibold text-white transition hover:border-white/40 hover:bg-white/5 sm:w-auto">Lihat Case Study</a>
                 </div>
 
-                <div class="flex flex-wrap gap-3">
-                    @foreach ($trustPills as $pill)
-                        <span class="rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-xs text-white/70 sm:text-sm">{{ $pill }}</span>
-                    @endforeach
-                </div>
-
-                <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-                    @foreach ($heroSignals as $signal)
-                        <div class="luxury-panel rounded-[1.5rem] border border-white/10 p-5 backdrop-blur-sm" style="transition-delay: {{ $loop->index * 90 }}ms" data-reveal data-tilt-card data-tilt-intensity="6">
-                            <p class="text-xs uppercase tracking-[0.3em] text-white/35">{{ $signal['label'] }}</p>
-                            <p class="mt-3 text-lg font-semibold text-white">{{ $signal['value'] }}</p>
+                <div class="grid gap-3 sm:grid-cols-3">
+                    @foreach ($conversionSignals as $signal)
+                        <div class="luxury-panel rounded-[1.35rem] border border-white/10 px-4 py-4 backdrop-blur-sm" style="transition-delay: {{ $loop->index * 90 }}ms" data-reveal>
+                            <p class="text-2xl font-semibold text-white">{{ $signal['value'] }}</p>
+                            <p class="mt-2 text-sm leading-6 text-white/60">{{ $signal['label'] }}</p>
                         </div>
                     @endforeach
                 </div>
 
                 <div class="grid gap-4 sm:grid-cols-2">
-                    @foreach ($highlights as $highlight)
+                    @foreach (array_slice($highlights, 0, 2) as $highlight)
                         <div class="luxury-panel rounded-[1.75rem] border border-white/10 bg-black/25 p-5 text-sm leading-7 text-white/70 backdrop-blur-sm" style="transition-delay: {{ $loop->index * 110 }}ms" data-reveal>
                             {{ $highlight }}
                         </div>
@@ -176,70 +170,46 @@
                 </div>
             </div>
 
-            <div class="parallax-scene relative" data-reveal="right" data-parallax-scene>
-                <div class="floating-card absolute -left-4 top-10 hidden rounded-2xl border border-white/10 bg-neutral-950/80 px-4 py-3 text-sm text-white/70 shadow-2xl shadow-black/40 lg:block parallax-layer" data-parallax="12" data-rotate="6">
-                    Fast launch <span class="text-orange-300">+</span> sharp delivery
-                </div>
-                <div class="floating-card absolute -right-4 bottom-14 hidden rounded-2xl border border-orange-400/30 bg-orange-500/10 px-4 py-3 text-sm font-semibold text-orange-200 shadow-2xl shadow-orange-950/30 lg:block parallax-layer" style="animation-delay: -2.4s;" data-parallax="18" data-rotate="8">
-                    Premium • Precise • Playful
-                </div>
-                <div class="absolute right-10 top-5 hidden rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold tracking-[0.25em] text-white/60 backdrop-blur-sm lg:block parallax-layer" data-parallax="10">
-                    CURATED DIGITAL CRAFT
-                </div>
+            <div class="parallax-scene relative w-full max-w-xl mx-auto lg:max-w-none" data-reveal="right" data-parallax-scene>
+                <div class="luxury-panel parallax-layer relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-neutral-950/40 p-5 shadow-[0_35px_120px_rgba(0,0,0,0.48)] backdrop-blur-xl sm:p-6" data-parallax="16" data-rotate="8" data-tilt-card data-tilt-intensity="7">
+                    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,122,0,0.12),transparent_45%)]"></div>
+                    <div class="absolute inset-0 bg-[linear-gradient(145deg,rgba(255,255,255,0.03),rgba(255,255,255,0.01))]"></div>
+                    <div class="absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-orange-400/40 to-transparent"></div>
 
-                <div class="luxury-panel parallax-layer relative overflow-hidden rounded-[2.3rem] border border-white/10 p-5 shadow-[0_35px_120px_rgba(0,0,0,0.48)] backdrop-blur-xl sm:p-6 lg:p-8" data-parallax="16" data-rotate="10" data-tilt-card data-tilt-intensity="9">
-                    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,122,0,0.18),transparent_28%)]"></div>
-                    <div class="absolute inset-0 bg-[linear-gradient(145deg,rgba(255,255,255,0.06),rgba(255,255,255,0.01))]"></div>
-                    <div class="absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-orange-400/70 to-transparent"></div>
-
-                    <div class="relative space-y-6">
-                        <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-                            <div>
-                                <p class="text-sm font-semibold tracking-[0.35em] text-orange-300">TINYCATSTUDIO</p>
-                                <h2 class="mt-4 max-w-sm text-2xl font-semibold text-white sm:text-3xl">Software house untuk brand yang ingin tampil mahal, stabil, dan terlalu meyakinkan untuk diabaikan.</h2>
+                    <div class="relative space-y-4">
+                        <div class="rounded-[2rem] border border-white/10 bg-white/[0.03] p-6 sm:p-8">
+                            <div class="mb-5 flex items-center justify-between">
+                                <p class="text-xs font-semibold tracking-[0.3em] text-orange-300">TINYCATSTUDIO</p>
+                                <div class="flex items-center gap-2 rounded-full border border-orange-500/20 bg-orange-500/10 px-3 py-1">
+                                    <span class="relative flex h-2 w-2">
+                                      <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-orange-400 opacity-75"></span>
+                                      <span class="relative inline-flex h-2 w-2 rounded-full bg-orange-500"></span>
+                                    </span>
+                                    <span class="text-[10px] font-medium uppercase tracking-wider text-orange-200">Open for build</span>
+                                </div>
                             </div>
-                            <span class="w-fit rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold text-white/65">Quiet luxury</span>
+                            <h2 class="text-2xl font-semibold leading-snug text-white sm:text-3xl">Desain mahal,<br/>eksekusi tajam.</h2>
+                            <p class="mt-4 text-sm leading-7 text-white/60">Menyediakan satu sistem kerja untuk software, branding, dan growth yang tenang dilihat dan jelas dipahami.</p>
                         </div>
 
-                        <div class="grid gap-4 md:grid-cols-[1.15fr_0.85fr]">
-                            <div class="rounded-[2rem] border border-white/10 bg-neutral-950/80 p-4 sm:p-5 lg:p-6">
-                                <div class="flex flex-col gap-4 rounded-2xl border border-white/10 bg-white/5 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
-                                    <div>
-                                        <p class="text-xs uppercase tracking-[0.3em] text-white/40">Core Service</p>
-                                        <p class="mt-2 text-base font-semibold text-white">Website • Mobile App • Logo • Graphic • Ads</p>
-                                    </div>
-                                    <span class="w-fit rounded-full bg-orange-500 px-3 py-1 text-xs font-semibold text-white">Open for Build</span>
-                                </div>
-
-                                <div class="mt-5 grid gap-4 sm:grid-cols-2">
-                                    @foreach ($metrics as $metric)
-                                        <div class="rounded-[1.4rem] border border-white/10 bg-white/5 p-5">
-                                            <p class="text-3xl font-semibold text-white">{{ str_pad((string) $metric['value'], 2, '0', STR_PAD_LEFT) }}</p>
-                                            <p class="mt-2 text-sm text-white/55">{{ $metric['label'] }}</p>
-                                        </div>
-                                    @endforeach
-                                </div>
+                        <div class="grid gap-4 sm:grid-cols-2">
+                            <div class="rounded-[1.75rem] border border-white/10 bg-white/5 p-6">
+                                <p class="text-xs uppercase tracking-[0.3em] text-white/40">Premium UI</p>
+                                <p class="mt-3 text-lg font-semibold text-white">Classy, tidak ramai.</p>
+                                <p class="mt-2 text-xs leading-6 text-white/50">Hierarchy & spacing tertata rapi.</p>
                             </div>
-
-                            <div class="space-y-4">
-                                <div class="rounded-[1.75rem] border border-white/10 bg-white/5 p-5">
-                                    <p class="text-xs uppercase tracking-[0.3em] text-white/40">Premium Interface</p>
-                                    <p class="mt-3 text-xl font-semibold text-white">Visual yang classy, bukan ramai.</p>
-                                    <p class="mt-2 text-sm leading-7 text-white/60">Kami menjaga hierarchy, motion, spacing, dan copy agar brand Anda terasa high-end tanpa kehilangan fungsi.</p>
-                                </div>
-                                <div class="rounded-[1.75rem] border border-white/10 bg-orange-500/10 p-5">
-                                    <p class="text-xs uppercase tracking-[0.3em] text-orange-200/80">Growth Layer</p>
-                                    <p class="mt-3 text-xl font-semibold text-white">Bukan cuma indah, tapi siap mengejar lead.</p>
-                                    <p class="mt-2 text-sm leading-7 text-white/70">Setiap page, funnel, dan CTA dirancang supaya tampilan mewah tetap berujung pada action yang jelas.</p>
-                                </div>
+                            <div class="rounded-[1.75rem] border border-white/10 bg-black/40 p-6">
+                                <p class="text-xs uppercase tracking-[0.3em] text-orange-200/60">Growth Layer</p>
+                                <p class="mt-3 text-lg font-semibold text-white">Siap mengejar lead.</p>
+                                <p class="mt-2 text-xs leading-6 text-white/50">Funnel didesain untuk closing.</p>
                             </div>
                         </div>
 
-                        <div class="grid gap-4 sm:grid-cols-3">
-                            @foreach ($conversionSignals as $signal)
-                                <div class="rounded-[1.5rem] border border-white/10 bg-black/25 p-4">
-                                    <p class="text-2xl font-semibold text-white">{{ $signal['value'] }}</p>
-                                    <p class="mt-2 text-sm leading-6 text-white/60">{{ $signal['label'] }}</p>
+                        <div class="grid gap-4 sm:grid-cols-2">
+                            @foreach ($metrics as $metric)
+                                <div class="rounded-[1.75rem] border border-white/10 bg-white/5 p-6">
+                                    <p class="text-3xl font-semibold text-white">{{ str_pad((string) $metric['value'], 2, '0', STR_PAD_LEFT) }}</p>
+                                    <p class="mt-1 text-xs text-white/50">{{ $metric['label'] }}</p>
                                 </div>
                             @endforeach
                         </div>
@@ -251,9 +221,9 @@
 
     <section class="border-y border-white/10 bg-white/[0.03] py-4">
         <div class="mx-auto max-w-7xl overflow-hidden px-6 lg:px-8">
-            <div class="marquee-track items-center gap-3 whitespace-nowrap text-sm text-white/65">
+            <div class="marquee-track items-center gap-6 whitespace-nowrap text-sm text-white/65">
                 @foreach (array_merge($studioSignals, $studioSignals) as $signal)
-                    <span class="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2">
+                    <span class="inline-flex items-center gap-3">
                         <span class="text-orange-300">•</span>
                         <span>{{ $signal }}</span>
                     </span>
