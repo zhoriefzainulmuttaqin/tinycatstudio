@@ -1,7 +1,10 @@
 @extends('layouts.app')
 
-@section('title', $service->name . ' | TinyCatStudio')
-@section('meta_description', $service->description)
+@section('title', $service->name . ' | ' . ($siteSettings['site_name'] ?? 'TinyCatStudio'))
+@section('meta_description', \Illuminate\Support\Str::limit(strip_tags($service->description), 150))
+@section('meta_keywords', implode(', ', explode(' ', strtolower($service->name))) . ', jasa, layanan, software house')
+@section('og_type', 'website')
+@section('og_image', !empty($siteSettings['site_logo']) ? asset('storage/' . $siteSettings['site_logo']) : asset('logo.png'))
 
 @section('content')
     <section class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-24">

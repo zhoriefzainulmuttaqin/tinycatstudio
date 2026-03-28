@@ -11,6 +11,7 @@ use App\Models\Service;
 use App\Models\Setting;
 use App\Models\Testimonial;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\Request;
 
 class WebsiteController extends Controller
 {
@@ -176,5 +177,43 @@ class WebsiteController extends Controller
         }
 
         return $settings;
+    }
+
+    public function sitemap(Request $request)
+    {
+        $services = Service::where('is_active', true)->get();
+        $portfolios = Portfolio::all();
+        $posts = BlogPost::where('is_published', true)->get();
+
+        $xml = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
+        $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
+
+        // Home
+        $xml .= '<url><loc>' . route('home') . '</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>' . "\n";
+
+        // Portfolio Index
+        $xml .= '<url><loc>' . route('portfolios.index') . '</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>' . "\n";
+
+        // Blog Index
+        $xml .= '<url><loc>' . route('blog.index') . '</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>' . "\n";
+
+        // Services
+        foreach ($services as $service) {
+            $xml .= '<url><loc>' . route('services.show', $service) . '</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>' . "\n";
+        }
+
+        // Portfolios
+        foreach ($portfolios as $portfolio) {
+            $xml .= '<url><loc>' . route('portfolios.show', $portfolio) . '</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>' . "\n";
+        }
+
+        // Blog Posts
+        foreach ($posts as $post) {
+            $xml .= '<url><loc>' . route('blog.show', $post) . '</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>' . "\n";
+        }
+
+        $xml .= '</urlset>';
+
+        return response($xml)->header('Content-Type', 'text/xml');
     }
 }

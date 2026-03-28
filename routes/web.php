@@ -26,3 +26,5 @@ Route::middleware('auth')->group(function (): void {
 
 Route::post('/leads', [LeadController::class, 'store'])->name('leads.store');
 Route::post('/contacts', [ContactController::class, 'store'])->name('contacts.store');
+
+Route::get('/sitemap.xml', [WebsiteController::class, 'sitemap'])->name('sitemap');

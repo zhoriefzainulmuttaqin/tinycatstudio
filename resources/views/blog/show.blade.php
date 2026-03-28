@@ -1,7 +1,10 @@
 @extends('layouts.app')
 
-@section('title', $post->title . ' | Blog TinyCatStudio')
+@section('title', $post->title . ' | ' . ($siteSettings['site_name'] ?? 'TinyCatStudio'))
 @section('meta_description', \Illuminate\Support\Str::limit(strip_tags($post->content), 150))
+@section('meta_keywords', implode(', ', explode(' ', strtolower($post->title))) . ', software house, blog, artikel')
+@section('og_type', 'article')
+@section('og_image', $post->thumbnail)
 
 @section('content')
     <section class="mx-auto max-w-5xl px-4 py-14 sm:px-6 lg:px-8 lg:py-24">

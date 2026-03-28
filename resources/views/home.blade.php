@@ -1,7 +1,9 @@
 @extends('layouts.app')
 
-@section('title', 'TinyCatStudio | Software House Premium untuk Website, App, Design & Ads')
+@section('title', ($siteSettings['site_name'] ?? 'TinyCatStudio') . ' | Software House Premium untuk Website, App, Design & Ads')
 @section('meta_description', 'TinyCatStudio adalah software house premium yang menghadirkan jasa pembuatan website, aplikasi mobile, logo design, graphic design, dan iklan digital dengan eksekusi elegan dan conversion-minded.')
+@section('meta_keywords', 'software house indonesia, bikin website premium, jasa aplikasi mobile, desain logo perusahaan, graphic design, digital marketing agency')
+@section('og_type', 'website')
 
 @section('content')
     @php

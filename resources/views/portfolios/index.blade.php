@@ -1,7 +1,9 @@
 @extends('layouts.app')
 
-@section('title', 'Portfolio | TinyCatStudio')
-@section('meta_description', 'Lihat hasil kerja TinyCatStudio untuk website, aplikasi mobile, branding, graphic design, dan ads management.')
+@section('title', 'Portfolio | ' . ($siteSettings['site_name'] ?? 'TinyCatStudio'))
+@section('meta_description', 'Lihat hasil kerja ' . ($siteSettings['site_name'] ?? 'TinyCatStudio') . ' untuk project website, aplikasi mobile, branding, graphic design, dan ads management.')
+@section('meta_keywords', 'portfolio software house, case study pembuatan aplikasi, hasil kerja desain logo, website perusahaan')
+@section('og_type', 'website')
 
 @section('content')
     <section class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-24">

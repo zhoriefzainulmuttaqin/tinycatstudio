@@ -1,7 +1,10 @@
 @extends('layouts.app')
 
-@section('title', $portfolio->title . ' | Portfolio TinyCatStudio')
-@section('meta_description', $portfolio->description)
+@section('title', $portfolio->title . ' | Portfolio ' . ($siteSettings['site_name'] ?? 'TinyCatStudio'))
+@section('meta_description', \Illuminate\Support\Str::limit(strip_tags($portfolio->description), 150))
+@section('meta_keywords', implode(', ', explode(' ', strtolower($portfolio->title))) . ', portfolio, case study, project')
+@section('og_type', 'article')
+@section('og_image', $portfolio->thumbnail)
 
 @section('content')
     <section class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-24">
