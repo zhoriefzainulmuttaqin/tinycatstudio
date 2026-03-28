@@ -682,9 +682,9 @@
                     <div>
                         <label for="lead_service" class="mb-2 block text-sm text-white/70">Layanan</label>
                         <select id="lead_service" name="service_id" class="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-white outline-none transition focus:border-orange-400">
-                            <option value="">Pilih layanan utama</option>
+                            <option value="" class="bg-neutral-900 text-white">Pilih layanan utama</option>
                             @foreach ($services as $service)
-                                <option value="{{ $service->id }}" @selected(old('service_id') == $service->id)>{{ $service->name }}</option>
+                                <option value="{{ $service->id }}" class="bg-neutral-900 text-white" @selected(old('service_id') == $service->id)>{{ $service->name }}</option>
                             @endforeach
                         </select>
                         @error('service_id', 'lead')<p class="mt-2 text-sm text-rose-300">{{ $message }}</p>@enderror

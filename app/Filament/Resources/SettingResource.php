@@ -26,11 +26,11 @@ class SettingResource extends Resource
                 Forms\Components\TextInput::make('key')
                     ->required()
                     ->live(),
-                Forms\Components\Textarea::make('value')
+                Forms\Components\Textarea::make('value_text')
                     ->label('Text Value')
                     ->visible(fn (Forms\Get $get): bool => !str_contains($get('key') ?? '', 'logo') && !str_contains($get('key') ?? '', 'image'))
                     ->columnSpanFull(),
-                Forms\Components\FileUpload::make('value')
+                Forms\Components\FileUpload::make('value_image')
                     ->label('Image Value (Logo, etc)')
                     ->directory('settings')
                     ->image()

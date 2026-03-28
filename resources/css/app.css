@@ -33,7 +33,7 @@
     --theme-grid-mask: radial-gradient(circle at center, rgba(0, 0, 0, 0.92) 20%, rgba(0, 0, 0, 0.72) 58%, transparent 100%);
     --theme-grid-opacity: 0.9;
     --theme-panel-gradient: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
-    --theme-panel-glow: radial-gradient(circle at var(--pointer-x, 50%) var(--pointer-y, 50%), rgba(255, 255, 255, 0.16), transparent 24%);
+    --theme-panel-glow: radial-gradient(circle 450px at var(--pointer-x, 50%) var(--pointer-y, 50%), rgba(255, 255, 255, 0.16), transparent 100%);
     --theme-noise-dot: rgba(255, 255, 255, 0.06);
     --theme-pricing-glow: radial-gradient(circle, rgba(255, 122, 0, 0.24), transparent 68%);
     --theme-border-subtle: rgba(255, 255, 255, 0.1);
@@ -73,7 +73,7 @@
     --theme-grid-mask: radial-gradient(circle at center, rgba(0, 0, 0, 0.86) 18%, rgba(0, 0, 0, 0.55) 60%, transparent 100%);
     --theme-grid-opacity: 0.72;
     --theme-panel-gradient: linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(255, 247, 237, 0.86));
-    --theme-panel-glow: radial-gradient(circle at var(--pointer-x, 50%) var(--pointer-y, 50%), rgba(255, 122, 0, 0.16), transparent 24%);
+    --theme-panel-glow: radial-gradient(circle 450px at var(--pointer-x, 50%) var(--pointer-y, 50%), rgba(255, 122, 0, 0.16), transparent 100%);
     --theme-noise-dot: rgba(17, 24, 39, 0.08);
     --theme-pricing-glow: radial-gradient(circle, rgba(255, 122, 0, 0.16), transparent 70%);
     --theme-border-subtle: rgba(15, 23, 42, 0.12);
@@ -221,7 +221,7 @@
     .luxury-panel::after {
         content: '';
         position: absolute;
-        inset: -30%;
+        inset: 0;
         background: var(--theme-panel-glow);
         opacity: 0;
         transition: opacity 0.35s ease;
