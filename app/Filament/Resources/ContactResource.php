@@ -17,20 +17,42 @@ class ContactResource extends Resource
 {
     protected static ?string $model = Contact::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-identification';
+    protected static ?string $navigationLabel = 'Kontak Info';
+    protected static ?string $modelLabel = 'Info Kontak';
+    protected static ?string $pluralModelLabel = 'Info Kontak';
+    protected static ?int $navigationSort = 11;
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required(),
                 Forms\Components\TextInput::make('email')
+                    ->label('Email Address')
                     ->email()
-                    ->required(),
-                Forms\Components\Textarea::make('message')
-                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('phone')
+                    ->label('No. HP / WhatsApp')
+                    ->tel()
+                    ->maxLength(255),
+                Forms\Components\Textarea::make('location')
+                    ->label('Lokasi / Google Maps Embed')
                     ->columnSpanFull(),
+                Forms\Components\Section::make('Social Media')
+                    ->schema([
+                        Forms\Components\TextInput::make('facebook')
+                            ->label('Facebook URL')
+                            ->url()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('instagram')
+                            ->label('Instagram URL')
+                            ->url()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('tiktok')
+                            ->label('TikTok URL')
+                            ->url()
+                            ->maxLength(255),
+                    ])->columns(3),
             ]);
     }
 
@@ -38,9 +60,9 @@ class ContactResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('email')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('phone')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
@@ -58,25 +80,14 @@ class ContactResource extends Resource
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                //
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListContacts::route('/'),
-            'create' => Pages\CreateContact::route('/create'),
-            'edit' => Pages\EditContact::route('/{record}/edit'),
+            'index' => Pages\ManageContacts::route('/'),
         ];
     }
 }

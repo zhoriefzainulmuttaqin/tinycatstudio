@@ -163,6 +163,18 @@ class WebsiteController extends Controller
      */
     private function siteSettings(): array
     {
-        return Setting::query()->pluck('value', 'key')->all();
+        $settings = Setting::query()->pluck('value', 'key')->all();
+        $contact = \App\Models\Contact::first();
+
+        if ($contact) {
+            $settings['email'] = $contact->email ?? $settings['email'] ?? 'hello@tinycatstudio.tech';
+            $settings['whatsapp_number'] = $contact->phone ?? $settings['whatsapp_number'] ?? '+62 812-3456-7890';
+            $settings['address'] = $contact->location ?? $settings['address'] ?? 'Indonesia';
+            $settings['facebook'] = $contact->facebook ?? '';
+            $settings['instagram'] = $contact->instagram ?? '';
+            $settings['tiktok'] = $contact->tiktok ?? '';
+        }
+
+        return $settings;
     }
 }

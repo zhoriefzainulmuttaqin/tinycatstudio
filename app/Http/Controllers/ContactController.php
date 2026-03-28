@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Contact;
+use App\Models\Message;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
@@ -16,7 +16,7 @@ class ContactController extends Controller
             'message' => ['required', 'string'],
         ]);
 
-        Contact::create($validated);
+        Message::create($validated);
 
         return back()
             ->with('success', 'Pesan Anda berhasil dikirim. Kami akan segera menghubungi Anda.')
