@@ -22,6 +22,8 @@ class ClientInvoiceResource extends Resource
     protected static ?string $modelLabel = 'Invoice';
     protected static ?string $pluralModelLabel = 'Invoices';
 
+    protected static ?int $navigationSort = 1;
+
     public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
     {
         return parent::getEloquentQuery()->where('client_id', auth()->id());
@@ -40,6 +42,22 @@ class ClientInvoiceResource extends Resource
                             ->required()
                             ->default(fn () => 'INV-' . strtoupper(str()->random(6)))
                             ->maxLength(255),
+                        Forms\Components\Select::make('client_customer_id')
+                            ->label('Select Existing Customer')
+                            ->options(fn () => \App\Models\ClientCustomer::where('client_id', auth()->id())->pluck('name', 'id'))
+                            ->searchable()
+                            ->live()
+                            ->afterStateUpdated(function ($state, Forms\Set $set) {
+                                if ($state) {
+                                    $customer = \App\Models\ClientCustomer::find($state);
+                                    if ($customer) {
+                                        $set('customer_name', $customer->name);
+                                        $set('customer_email', $customer->email);
+                                        $set('customer_address', $customer->address);
+                                    }
+                                }
+                            })
+                            ->columnSpanFull(),
                         Forms\Components\TextInput::make('customer_name')
                             ->label('Billed To (Client Name)')
                             ->required()
@@ -63,11 +81,48 @@ class ClientInvoiceResource extends Resource
                             ])
                             ->required()
                             ->default('draft'),
+                    ])->columns(['default' => 1, 'md' => 2]),
+
+                Forms\Components\Section::make('Totals & Adjustments')
+                    ->schema([
+                        Forms\Components\TextInput::make('discount_amount')
+                            ->numeric()
+                            ->default(0)
+                            ->label('Discount Amount (Nominal)'),
                         Forms\Components\TextInput::make('tax_rate')
                             ->numeric()
                             ->default(0)
                             ->suffix('%')
                             ->label('Tax Rate'),
+                        Forms\Components\TextInput::make('additional_fee')
+                            ->numeric()
+                            ->default(0)
+                            ->label('Additional Fee (Shipping, etc)'),
+                    ])->columns(3),
+                    
+                Forms\Components\Section::make('Automation')
+                    ->description('Set this invoice to recur automatically.')
+                    ->schema([
+                        Forms\Components\Toggle::make('is_recurring')
+                            ->label('Recurring Invoice')
+                            ->live(),
+                        Forms\Components\Select::make('recurring_interval')
+                            ->label('Interval')
+                            ->options([
+                                'weekly' => 'Weekly',
+                                'monthly' => 'Monthly',
+                                'yearly' => 'Yearly',
+                            ])
+                            ->required(fn (Forms\Get $get) => $get('is_recurring'))
+                            ->visible(fn (Forms\Get $get) => $get('is_recurring')),
+                        Forms\Components\DatePicker::make('next_recurring_date')
+                            ->label('First Recurrence Date')
+                            ->required(fn (Forms\Get $get) => $get('is_recurring'))
+                            ->visible(fn (Forms\Get $get) => $get('is_recurring')),
+                    ])->columns(3),
+                    
+                Forms\Components\Section::make('Client Information')
+                    ->schema([
                         Forms\Components\Textarea::make('customer_address')
                             ->label('Client Address')
                             ->maxLength(65535)
@@ -78,7 +133,7 @@ class ClientInvoiceResource extends Resource
                             ->maxLength(65535)
                             ->columnSpanFull(),
                     ])->columns(['default' => 1, 'md' => 2]),
-                    
+
                 Forms\Components\Section::make('Line Items')
                     ->description('Add the products or services you are billing for.')
                     ->schema([
@@ -142,6 +197,12 @@ class ClientInvoiceResource extends Resource
                         'overdue' => 'danger',
                         default => 'primary',
                     }),
+                Tables\Columns\IconColumn::make('is_recurring')
+                    ->label('Recurring')
+                    ->boolean()
+                    ->trueIcon('heroicon-o-arrow-path')
+                    ->falseIcon('heroicon-o-minus')
+                    ->alignCenter(),
             ])
             ->filters([
                 //
@@ -153,6 +214,26 @@ class ClientInvoiceResource extends Resource
                         ->icon('heroicon-o-eye')
                         ->url(fn (\App\Models\ClientInvoice $record): string => route('invoices.preview', $record))
                         ->openUrlInNewTab(),
+                    Tables\Actions\Action::make('share_wa')
+                        ->label('Share to WA')
+                        ->icon('heroicon-o-chat-bubble-left-ellipsis')
+                        ->color('success')
+                        ->url(function (\App\Models\ClientInvoice $record): string {
+                            $companyName = auth()->user()->company_name ?? auth()->user()->name;
+                            $total = 'Rp ' . number_format($record->total_amount, 0, ',', '.');
+                            $link = route('invoices.public', $record->invoice_number);
+                            $text = "Hello {$record->customer_name},\n\nHere is your invoice {$record->invoice_number} from {$companyName} for the amount of {$total}.\n\nYou can view and download your invoice online here:\n{$link}\n\nThank you!";
+                            return 'https://wa.me/?text=' . urlencode($text);
+                        })
+                        ->openUrlInNewTab(),
+                    Tables\Actions\Action::make('copy_link')
+                        ->label('Copy Public Link')
+                        ->icon('heroicon-o-link')
+                        ->color('info')
+                        ->url('#')
+                        ->extraAttributes(fn (\App\Models\ClientInvoice $record) => [
+                            'x-on:click.prevent' => "window.navigator.clipboard.writeText('".route('invoices.public', $record->invoice_number)."'); new FilamentNotification().title('Link Copied!').success().send();",
+                        ]),
                     Tables\Actions\Action::make('download')
                         ->label('Download PDF')
                         ->icon('heroicon-o-arrow-down-tray')

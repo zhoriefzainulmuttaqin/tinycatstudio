@@ -40,14 +40,15 @@
         .invoice-box table tr.top table td.title {
             font-size: 45px;
             line-height: 45px;
-            color: #333;
+            color: {{ $invoice->client->theme_color ?? '#333' }};
         }
         .invoice-box table tr.information table td {
             padding-bottom: 40px;
         }
         .invoice-box table tr.heading td {
             background: #eee;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 2px solid {{ $invoice->client->theme_color ?? '#333' }};
+            color: {{ $invoice->client->theme_color ?? '#333' }};
             font-weight: bold;
         }
         .invoice-box table tr.details td {
@@ -60,7 +61,7 @@
             border-bottom: none;
         }
         .invoice-box table tr.total td:nth-child(2) {
-            border-top: 2px solid #eee;
+            border-top: 2px solid {{ $invoice->client->theme_color ?? '#eee' }};
             font-weight: bold;
         }
         .text-right {
@@ -76,12 +77,28 @@
         .invoice-header {
             font-size: 32px;
             font-weight: bold;
-            color: #000;
+            color: {{ $invoice->client->theme_color ?? '#000' }};
+        }
+        .signature-box {
+            margin-top: 50px;
+            width: 250px;
+            text-align: center;
+            float: right;
+        }
+        .signature-img {
+            max-width: 200px;
+            max-height: 100px;
+            margin-bottom: 10px;
+        }
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
         }
     </style>
 </head>
 <body>
-    <div class="invoice-box">
+    <div class="invoice-box clearfix">
         <table cellpadding="0" cellspacing="0">
             <tr class="top">
                 <td colspan="4">
@@ -159,11 +176,27 @@
                 <td class="text-right">Rp {{ number_format($invoice->subtotal, 2, ',', '.') }}</td>
             </tr>
 
+            @if(isset($invoice->discount_amount) && $invoice->discount_amount > 0)
+            <tr class="total">
+                <td colspan="2"></td>
+                <td class="text-right" style="color: red;"><strong>Discount:</strong></td>
+                <td class="text-right" style="color: red;">-Rp {{ number_format($invoice->discount_amount, 2, ',', '.') }}</td>
+            </tr>
+            @endif
+
             @if($invoice->tax_amount > 0)
             <tr class="total">
                 <td colspan="2"></td>
                 <td class="text-right"><strong>Tax ({{ number_format($invoice->tax_rate, 2, ',', '.') }}%):</strong></td>
                 <td class="text-right">Rp {{ number_format($invoice->tax_amount, 2, ',', '.') }}</td>
+            </tr>
+            @endif
+
+            @if(isset($invoice->additional_fee) && $invoice->additional_fee > 0)
+            <tr class="total">
+                <td colspan="2"></td>
+                <td class="text-right"><strong>Additional Fee:</strong></td>
+                <td class="text-right">Rp {{ number_format($invoice->additional_fee, 2, ',', '.') }}</td>
             </tr>
             @endif
 
@@ -178,6 +211,25 @@
         <div style="margin-top: 50px;">
             <strong>Notes:</strong>
             <p>{!! nl2br(e($invoice->notes)) !!}</p>
+        </div>
+        @endif
+
+        @if($invoice->client->signature_url)
+        <div class="signature-box">
+            <?php
+                $sigPath = storage_path('app/public/' . $invoice->client->signature_url);
+                $sigType = pathinfo($sigPath, PATHINFO_EXTENSION);
+                if (file_exists($sigPath)) {
+                    $sigData = file_get_contents($sigPath);
+                    $sigBase64 = 'data:image/' . $sigType . ';base64,' . base64_encode($sigData);
+                } else {
+                    $sigBase64 = url('storage/' . $invoice->client->signature_url);
+                }
+            ?>
+            <img src="{{ $sigBase64 }}" class="signature-img" alt="Signature"><br>
+            <strong style="border-top: 1px solid #333; padding-top: 5px; display: inline-block; width: 100%;">
+                {{ $invoice->client->name }}
+            </strong>
         </div>
         @endif
     </div>

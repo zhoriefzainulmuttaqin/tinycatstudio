@@ -40,4 +40,17 @@ class InvoiceController extends Controller
         
         return $pdf->download('Invoice-' . $invoice->invoice_number . '.pdf');
     }
+
+    public function publicView($invoice_number)
+    {
+        $invoice = ClientInvoice::with(['client', 'items'])->where('invoice_number', $invoice_number)->firstOrFail();
+        return view('invoices.public', compact('invoice'));
+    }
+
+    public function publicDownload($invoice_number)
+    {
+        $invoice = ClientInvoice::with(['client', 'items'])->where('invoice_number', $invoice_number)->firstOrFail();
+        $pdf = Pdf::loadView('invoices.template', compact('invoice'));
+        return $pdf->download('Invoice-' . $invoice->invoice_number . '.pdf');
+    }
 }

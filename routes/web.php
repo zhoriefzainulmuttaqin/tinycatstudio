@@ -32,4 +32,6 @@ Route::get('/sitemap.xml', [WebsiteController::class, 'sitemap'])->name('sitemap
 Route::middleware([\Illuminate\Session\Middleware\StartSession::class])->group(function () {
     Route::get('/invoices/{invoice}/preview', [\App\Http\Controllers\InvoiceController::class, 'preview'])->name('invoices.preview');
     Route::get('/invoices/{invoice}/download', [\App\Http\Controllers\InvoiceController::class, 'download'])->name('invoices.download');
+    Route::get('/pay/{invoice_number}', [\App\Http\Controllers\InvoiceController::class, 'publicView'])->name('invoices.public');
+    Route::get('/pay/{invoice_number}/download', [\App\Http\Controllers\InvoiceController::class, 'publicDownload'])->name('invoices.public.download');
 });

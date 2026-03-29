@@ -20,6 +20,8 @@ class Client extends Authenticatable implements FilamentUser
         'phone',
         'address',
         'logo_url',
+        'theme_color',
+        'signature_url',
     ];
 
     protected $hidden = [
