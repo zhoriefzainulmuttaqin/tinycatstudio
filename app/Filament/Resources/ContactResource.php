@@ -17,7 +17,9 @@ class ContactResource extends Resource
 {
     protected static ?string $model = Contact::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-identification';
+    protected static ?string $navigationIcon = 'heroicon-o-envelope';
+
+    protected static ?string $navigationGroup = 'Inbox';
     protected static ?string $navigationLabel = 'Kontak Info';
     protected static ?string $modelLabel = 'Info Kontak';
     protected static ?string $pluralModelLabel = 'Info Kontak';
@@ -27,17 +29,20 @@ class ContactResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('email')
-                    ->label('Email Address')
-                    ->email()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('phone')
-                    ->label('No. HP / WhatsApp')
-                    ->tel()
-                    ->maxLength(255),
-                Forms\Components\Textarea::make('location')
-                    ->label('Lokasi / Google Maps Embed')
-                    ->columnSpanFull(),
+                Forms\Components\Section::make('Contact Details')
+                    ->schema([
+                        Forms\Components\TextInput::make('email')
+                            ->label('Email Address')
+                            ->email()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('phone')
+                            ->label('No. HP / WhatsApp')
+                            ->tel()
+                            ->maxLength(255),
+                        Forms\Components\Textarea::make('location')
+                            ->label('Lokasi / Google Maps Embed')
+                            ->columnSpanFull(),
+                    ])->columns(2),
                 Forms\Components\Section::make('Social Media')
                     ->schema([
                         Forms\Components\TextInput::make('facebook')

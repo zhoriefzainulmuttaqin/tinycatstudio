@@ -415,6 +415,9 @@ class TinyCatStudioSeeder extends Seeder
             ['key' => 'email', 'value' => 'hello@tinycatstudio.tech', 'created_at' => now(), 'updated_at' => now()],
             ['key' => 'address', 'value' => 'Indonesia', 'created_at' => now(), 'updated_at' => now()],
             ['key' => 'logo', 'value' => 'TCS', 'created_at' => now(), 'updated_at' => now()],
+            ['key' => 'about_us_title', 'value' => 'Lebih dari Sekadar Vendor, Kami Adalah Partner Growth Digital Anda.', 'created_at' => now(), 'updated_at' => now()],
+            ['key' => 'about_us_description', 'value' => 'TinyCatStudio berawal dari satu keyakinan sederhana: produk digital yang luar biasa tidak lahir dari barisan kode dan desain yang dikerjakan secara mekanis, melainkan dari pemahaman mendalam tentang audiens dan visi bisnis Anda. Kami hadir bukan sekadar untuk menyelesaikan tiket tugas, tapi untuk membangun aset digital premium—mulai dari website elegan, aplikasi mobile yang scalable, hingga branding yang tajam—yang benar-benar bekerja untuk mendatangkan konversi dan mengangkat value brand Anda di mata pasar.', 'created_at' => now(), 'updated_at' => now()],
+            ['key' => 'about_us_image', 'value' => '', 'created_at' => now(), 'updated_at' => now()],
         ]);
 
         $project = Project::create([

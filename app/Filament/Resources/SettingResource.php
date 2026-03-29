@@ -17,13 +17,17 @@ class SettingResource extends Resource
 {
     protected static ?string $model = Setting::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-cog-6-tooth';
+
+    protected static ?string $navigationGroup = 'System';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('key')
+                Forms\Components\Section::make('General Information')
+                    ->schema([
+                        Forms\Components\TextInput::make('key')
                     ->required()
                     ->live(),
                 Forms\Components\Textarea::make('value_text')
@@ -36,6 +40,7 @@ class SettingResource extends Resource
                     ->image()
                     ->visible(fn (Forms\Get $get): bool => str_contains($get('key') ?? '', 'logo') || str_contains($get('key') ?? '', 'image'))
                     ->columnSpanFull(),
+                    ])->columns(2),
             ]);
     }
 

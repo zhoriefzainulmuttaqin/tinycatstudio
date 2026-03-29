@@ -103,6 +103,7 @@
 
                     <nav class="hidden items-center text-white/75 md:flex md:gap-5 md:text-xs lg:gap-8 lg:text-sm">
                         <a href="{{ $servicesLink }}" class="theme-nav-link transition hover:text-white">Layanan</a>
+                        <a href="{{ url('/#about') }}" class="theme-nav-link transition hover:text-white">Tentang Kami</a>
                         <a href="{{ route('portfolios.index') }}" class="theme-nav-link transition hover:text-white">Portfolio</a>
                         <a href="{{ route('blog.index') }}" class="theme-nav-link transition hover:text-white">Blog</a>
                         <a href="{{ $pricingLink }}" class="theme-nav-link transition hover:text-white">Harga</a>
@@ -183,6 +184,7 @@
                 <div x-show="open" x-transition class="border-t border-white/10 px-4 py-5 sm:px-6 md:hidden">
                     <div class="flex flex-col gap-4 text-sm text-white/75">
                         <a href="{{ $servicesLink }}" class="theme-nav-link" @click="open = false">Layanan</a>
+                        <a href="{{ url('/#about') }}" class="theme-nav-link" @click="open = false">Tentang Kami</a>
                         <a href="{{ route('portfolios.index') }}" class="theme-nav-link" @click="open = false">Portfolio</a>
                         <a href="{{ route('blog.index') }}" class="theme-nav-link" @click="open = false">Blog</a>
                         <a href="{{ $pricingLink }}" class="theme-nav-link" @click="open = false">Harga</a>

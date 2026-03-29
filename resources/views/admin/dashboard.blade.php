@@ -93,9 +93,16 @@
 
                     <div class="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
                         @foreach ($overviewStats as $stat)
-                            <div class="rounded-[1.75rem] border border-white/10 bg-white/5 p-5">
-                                <p class="text-xs font-semibold uppercase tracking-[0.24em] text-white/45">{{ $stat['label'] }}</p>
-                                <p class="mt-4 text-3xl font-semibold text-white">{{ $stat['value'] }}</p>
+                            <div class="rounded-[1.75rem] border border-white/10 bg-white/5 p-5 transition hover:border-orange-400/30 hover:bg-orange-500/10">
+                                <div class="flex items-center gap-3">
+                                    <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-orange-500/20 text-orange-400">
+                                        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                            {!! $stat['icon'] !!}
+                                        </svg>
+                                    </span>
+                                    <p class="text-xs font-semibold uppercase tracking-[0.24em] text-white/45">{{ $stat['label'] }}</p>
+                                </div>
+                                <p class="mt-5 text-3xl font-semibold text-white">{{ $stat['value'] }}</p>
                                 <p class="mt-2 text-sm leading-6 text-white/60">{{ $stat['caption'] }}</p>
                             </div>
                         @endforeach
@@ -206,9 +213,14 @@
 
                             <div class="mt-5 space-y-3">
                                 @foreach ($contentStats as $stat)
-                                    <div class="rounded-[1.5rem] border border-white/10 bg-white/5 p-4">
-                                        <div class="flex items-center justify-between gap-3">
-                                            <div>
+                                    <div class="rounded-[1.5rem] border border-white/10 bg-white/5 p-4 transition hover:border-orange-400/30 hover:bg-orange-500/10">
+                                        <div class="flex items-center gap-4">
+                                            <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/10 text-white/70">
+                                                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                                    {!! $stat['icon'] !!}
+                                                </svg>
+                                            </span>
+                                            <div class="flex-1">
                                                 <p class="text-sm font-semibold text-white">{{ $stat['label'] }}</p>
                                                 <p class="mt-1 text-xs leading-5 text-white/50">{{ $stat['description'] }}</p>
                                             </div>

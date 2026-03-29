@@ -17,13 +17,17 @@ class TestimonialResource extends Resource
 {
     protected static ?string $model = Testimonial::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-star';
+
+    protected static ?string $navigationGroup = 'Content';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
+                Forms\Components\Section::make('General Information')
+                    ->schema([
+                        Forms\Components\TextInput::make('name')
                     ->required(),
                 Forms\Components\TextInput::make('company'),
                 Forms\Components\Textarea::make('message')
@@ -40,6 +44,7 @@ class TestimonialResource extends Resource
                     ->directory('testimonials'),
                 Forms\Components\Toggle::make('is_active')
                     ->default(true),
+                    ])->columns(2),
             ]);
     }
 

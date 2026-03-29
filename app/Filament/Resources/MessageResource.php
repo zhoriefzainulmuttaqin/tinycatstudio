@@ -18,6 +18,8 @@ class MessageResource extends Resource
     protected static ?string $model = Message::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-left-ellipsis';
+
+    protected static ?string $navigationGroup = 'Inbox';
     protected static ?string $navigationLabel = 'Pesan Masuk';
     protected static ?string $modelLabel = 'Pesan Masuk';
     protected static ?string $pluralModelLabel = 'Pesan Masuk';
@@ -27,7 +29,9 @@ class MessageResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
+                Forms\Components\Section::make('General Information')
+                    ->schema([
+                        Forms\Components\TextInput::make('name')
                     ->required(),
                 Forms\Components\TextInput::make('email')
                     ->email()
@@ -35,6 +39,7 @@ class MessageResource extends Resource
                 Forms\Components\Textarea::make('message')
                     ->required()
                     ->columnSpanFull(),
+                    ])->columns(2),
             ]);
     }
 

@@ -17,13 +17,17 @@ class PricingPackageResource extends Resource
 {
     protected static ?string $model = PricingPackage::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-currency-dollar';
+
+    protected static ?string $navigationGroup = 'Content';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('service_id')
+                Forms\Components\Section::make('General Information')
+                    ->schema([
+                        Forms\Components\Select::make('service_id')
                     ->relationship('service', 'name')
                     ->required(),
                 Forms\Components\TextInput::make('name')
@@ -44,6 +48,7 @@ class PricingPackageResource extends Resource
                             ->required(),
                     ])
                     ->columnSpanFull(),
+                    ])->columns(2),
             ]);
     }
 

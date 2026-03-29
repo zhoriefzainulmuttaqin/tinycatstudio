@@ -234,6 +234,35 @@
         </div>
     </section>
 
+    <!-- About Us Section -->
+    <section id="about" class="mx-auto max-w-7xl px-6 py-16 lg:px-8 lg:py-20">
+        <div class="luxury-panel rounded-[2.25rem] border border-white/10 p-8 shadow-[0_24px_80px_rgba(0,0,0,0.35)]" data-reveal="up" data-tilt-card data-tilt-intensity="3">
+            <div class="grid gap-12 lg:grid-cols-2 lg:items-center">
+                <div class="space-y-6">
+                    <span class="inline-flex rounded-full border border-orange-400/25 bg-orange-500/10 px-4 py-2 text-xs font-semibold tracking-[0.3em] text-orange-200">ABOUT US</span>
+                    <h2 class="text-3xl font-semibold leading-tight text-white md:text-4xl">
+                        {{ $siteSettings['about_us_title'] ?? 'Lebih dari Sekadar Vendor, Kami Adalah Partner Growth Digital Anda.' }}
+                    </h2>
+                    <div class="text-white/65 leading-relaxed">
+                        <p>{!! nl2br(e($siteSettings['about_us_description'] ?? 'TinyCatStudio berawal dari satu keyakinan sederhana: produk digital yang luar biasa tidak lahir dari barisan kode dan desain yang dikerjakan secara mekanis, melainkan dari pemahaman mendalam tentang audiens dan visi bisnis Anda. Kami hadir bukan sekadar untuk menyelesaikan tiket tugas, tapi untuk membangun aset digital premium—mulai dari website elegan, aplikasi mobile yang scalable, hingga branding yang tajam—yang benar-benar bekerja untuk mendatangkan konversi dan mengangkat value brand Anda di mata pasar.')) !!}</p>
+                    </div>
+                </div>
+                <div class="relative overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/5" style="aspect-ratio: 4/3;">
+                    @if(!empty($siteSettings['about_us_image']))
+                        <img src="{{ asset('storage/' . $siteSettings['about_us_image']) }}" alt="About {{ $siteSettings['site_name'] ?? 'TinyCatStudio' }}" class="absolute inset-0 h-full w-full object-cover" loading="lazy" />
+                    @else
+                        <div class="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-orange-500/20 to-purple-500/20 mix-blend-overlay"></div>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <svg class="h-24 w-24 text-white/10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                            </svg>
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section class="mx-auto max-w-7xl px-6 py-16 lg:px-8 lg:py-20">
         <div class="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between" data-reveal>
             <div class="max-w-3xl space-y-4">
