@@ -17,17 +17,20 @@ class EditProfile extends BaseEditProfile
                 $this->getNameFormComponent(),
                 $this->getEmailFormComponent(),
                 TextInput::make('company_name')
-                    ->label('Company Name')
+                    ->label('Workspace / Business Name')
+                    ->helperText('This name will appear on your invoices.')
                     ->maxLength(255),
                 TextInput::make('phone')
-                    ->label('Phone Number')
+                    ->label('Business Phone Number')
                     ->tel()
                     ->maxLength(255),
                 Textarea::make('address')
-                    ->label('Address')
+                    ->label('Business Address')
+                    ->helperText('Your official business address shown on invoices.')
                     ->maxLength(65535),
                 FileUpload::make('logo_url')
-                    ->label('Company Logo')
+                    ->label('Brand Logo')
+                    ->helperText('Upload your logo to be displayed on your invoices.')
                     ->image()
                     ->directory('client-logos')
                     ->maxSize(1024),

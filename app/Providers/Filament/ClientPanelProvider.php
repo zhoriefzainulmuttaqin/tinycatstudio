@@ -40,8 +40,30 @@ class ClientPanelProvider extends PanelProvider
             ->favicon(asset('favicon.ico'))
             ->spa()
             ->sidebarCollapsibleOnDesktop()
-            ->brandName('TinyCatStudio Portal')
-            ->profile(\App\Filament\Client\Pages\Auth\EditProfile::class)
+            ->topNavigation()
+            ->maxContentWidth('full')
+            ->renderHook(
+                \Filament\View\PanelsRenderHook::FOOTER,
+                fn (): string => \Illuminate\Support\Facades\Blade::render('
+                    <div class="mt-8 px-4 py-6 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 text-center text-sm text-gray-500 dark:text-gray-400">
+                        <p>Enjoying this invoicing platform?</p>
+                        <p class="mt-1">
+                            We build custom SaaS, web apps, and management systems tailored to your business.<br class="sm:hidden" />
+                            <a href="https://tinycatstudio.tech" target="_blank" class="font-semibold text-primary-600 hover:text-primary-500 hover:underline transition">
+                                Let\'s collaborate at TinyCatStudio.tech &rarr;
+                            </a>
+                        </p>
+                    </div>
+                '),
+            )
+            ->brandName('TinyCat Invoicing')
+            ->profile(\App\Filament\Client\Pages\Auth\EditProfile::class, isSimple: false)
+            ->navigationItems([
+                \Filament\Navigation\NavigationItem::make('Workspace & Brand')
+                    ->url(fn (): string => filament()->getProfileUrl())
+                    ->icon('heroicon-o-building-office-2')
+                    ->sort(100),
+            ])
             ->discoverResources(in: app_path('Filament/Client/Resources'), for: 'App\\Filament\\Client\\Resources')
             ->discoverPages(in: app_path('Filament/Client/Pages'), for: 'App\\Filament\\Client\\Pages')
             ->pages([

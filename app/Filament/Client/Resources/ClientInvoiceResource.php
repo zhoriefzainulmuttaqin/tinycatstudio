@@ -18,6 +18,9 @@ class ClientInvoiceResource extends Resource
     protected static ?string $model = ClientInvoice::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-document-currency-dollar';
+    protected static ?string $navigationLabel = 'My Invoices';
+    protected static ?string $modelLabel = 'Invoice';
+    protected static ?string $pluralModelLabel = 'Invoices';
 
     public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
     {
@@ -28,7 +31,8 @@ class ClientInvoiceResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Invoice Information')
+                Forms\Components\Section::make('Invoice Details')
+                    ->description('Provide the details of the client you are billing.')
                     ->schema([
                         Forms\Components\Hidden::make('client_id')
                             ->default(fn () => auth()->id()),
@@ -37,9 +41,11 @@ class ClientInvoiceResource extends Resource
                             ->default(fn () => 'INV-' . strtoupper(str()->random(6)))
                             ->maxLength(255),
                         Forms\Components\TextInput::make('customer_name')
+                            ->label('Billed To (Client Name)')
                             ->required()
                             ->maxLength(255),
                         Forms\Components\TextInput::make('customer_email')
+                            ->label('Client Email')
                             ->email()
                             ->maxLength(255),
                         Forms\Components\DatePicker::make('issue_date')
@@ -63,31 +69,38 @@ class ClientInvoiceResource extends Resource
                             ->suffix('%')
                             ->label('Tax Rate'),
                         Forms\Components\Textarea::make('customer_address')
+                            ->label('Client Address')
                             ->maxLength(65535)
                             ->columnSpanFull(),
                         Forms\Components\Textarea::make('notes')
+                            ->label('Notes / Payment Terms')
+                            ->helperText('Add any payment instructions or terms of service.')
                             ->maxLength(65535)
                             ->columnSpanFull(),
-                    ])->columns(2),
+                    ])->columns(['default' => 1, 'md' => 2]),
                     
-                Forms\Components\Section::make('Items')
+                Forms\Components\Section::make('Line Items')
+                    ->description('Add the products or services you are billing for.')
                     ->schema([
                         Forms\Components\Repeater::make('items')
                             ->relationship()
                             ->schema([
                                 Forms\Components\TextInput::make('description')
                                     ->required()
-                                    ->maxLength(255),
+                                    ->maxLength(255)
+                                    ->columnSpan(['default' => 1, 'md' => 2]),
                                 Forms\Components\TextInput::make('quantity')
                                     ->required()
                                     ->numeric()
-                                    ->default(1),
+                                    ->default(1)
+                                    ->columnSpan(1),
                                 Forms\Components\TextInput::make('unit_price')
                                     ->required()
                                     ->numeric()
-                                    ->default(0),
+                                    ->default(0)
+                                    ->columnSpan(1),
                             ])
-                            ->columns(3)
+                            ->columns(['default' => 1, 'md' => 4])
                     ]),
             ]);
     }
@@ -97,14 +110,28 @@ class ClientInvoiceResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('invoice_number')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('customer_name')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('issue_date')
-                    ->date()
+                    ->label('Invoice #')
+                    ->weight('bold')
+                    ->searchable()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('customer_name')
+                    ->label('Billed To')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('issue_date')
+                    ->label('Issue Date')
+                    ->date('M d, Y')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('due_date')
+                    ->label('Due Date')
+                    ->date('M d, Y')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('total_amount')
+                    ->label('Total')
                     ->money('idr')
+                    ->weight('bold')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status')
                     ->badge()
@@ -120,17 +147,19 @@ class ClientInvoiceResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\Action::make('preview')
-                    ->label('Preview')
-                    ->icon('heroicon-o-eye')
-                    ->url(fn (\App\Models\ClientInvoice $record): string => route('invoices.preview', $record))
-                    ->openUrlInNewTab(),
-                Tables\Actions\Action::make('download')
-                    ->label('PDF')
-                    ->icon('heroicon-o-arrow-down-tray')
-                    ->url(fn (\App\Models\ClientInvoice $record): string => route('invoices.download', $record))
-                    ->openUrlInNewTab(),
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\Action::make('preview')
+                        ->label('Preview')
+                        ->icon('heroicon-o-eye')
+                        ->url(fn (\App\Models\ClientInvoice $record): string => route('invoices.preview', $record))
+                        ->openUrlInNewTab(),
+                    Tables\Actions\Action::make('download')
+                        ->label('Download PDF')
+                        ->icon('heroicon-o-arrow-down-tray')
+                        ->url(fn (\App\Models\ClientInvoice $record): string => route('invoices.download', $record))
+                        ->openUrlInNewTab(),
+                    Tables\Actions\EditAction::make(),
+                ]),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

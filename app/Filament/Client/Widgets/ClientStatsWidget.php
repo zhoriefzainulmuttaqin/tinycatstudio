@@ -19,16 +19,16 @@ class ClientStatsWidget extends BaseWidget
         $totalUnpaid = ClientInvoice::where('client_id', $clientId)->whereIn('status', ['draft', 'deposit', 'overdue'])->sum('total_amount');
 
         return [
-            Stat::make('Total Invoices', $totalInvoices)
-                ->description('All your created invoices')
+            Stat::make('Invoices Issued', $totalInvoices)
+                ->description('Total invoices sent to your clients')
                 ->descriptionIcon('heroicon-m-document-text')
                 ->color('primary'),
-            Stat::make('Total Paid', 'Rp ' . number_format($totalPaid, 0, ',', '.'))
-                ->description('Total amount from paid invoices')
-                ->descriptionIcon('heroicon-m-check-circle')
+            Stat::make('Total Revenue', 'Rp ' . number_format($totalPaid, 0, ',', '.'))
+                ->description('Income from paid invoices')
+                ->descriptionIcon('heroicon-m-banknotes')
                 ->color('success'),
-            Stat::make('Pending Payment', 'Rp ' . number_format($totalUnpaid, 0, ',', '.'))
-                ->description('Total outstanding balance')
+            Stat::make('Outstanding Balance', 'Rp ' . number_format($totalUnpaid, 0, ',', '.'))
+                ->description('Amount owed by your clients')
                 ->descriptionIcon('heroicon-m-clock')
                 ->color('warning'),
         ];
