@@ -38,7 +38,7 @@
     
     <div class="iframe-container">
         <!-- We use object or iframe. object is often better for PDF rendering in some browsers -->
-        <object data="{{ route('invoices.public.download', $invoice->invoice_number) }}" type="application/pdf" width="100%" height="100%">
+        <object data="{{ route('invoices.public.stream', $invoice->invoice_number) }}" type="application/pdf" width="100%" height="100%">
             <p>It appears your web browser doesn't support viewing PDFs online. <br>
                <a href="{{ route('invoices.public.download', $invoice->invoice_number) }}" class="text-indigo-600 underline">Click here to download the PDF</a>.
             </p>

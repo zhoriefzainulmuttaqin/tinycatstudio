@@ -45,6 +45,21 @@ class ClientInvoice extends Model
         ];
     }
 
+    public static function formatNumber(float|int|string|null $value, int $maxDecimals = 2): string
+    {
+        $number = round((float) ($value ?? 0), $maxDecimals);
+        $formatted = number_format($number, $maxDecimals, ',', '.');
+
+        return str_contains($formatted, ',')
+            ? rtrim(rtrim($formatted, '0'), ',')
+            : $formatted;
+    }
+
+    public static function formatRupiah(float|int|string|null $value): string
+    {
+        return 'Rp ' . self::formatNumber($value);
+    }
+
     public function client()
     {
         return $this->belongsTo(Client::class);

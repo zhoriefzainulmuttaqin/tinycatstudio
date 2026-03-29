@@ -86,6 +86,7 @@ class ClientPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
+                \App\Http\Middleware\CheckClientSubscription::class,
             ]);
     }
 }

@@ -13,12 +13,33 @@ class ClientStatsWidget extends BaseWidget
     protected function getStats(): array
     {
         $clientId = auth()->id();
+        $user = auth()->user();
         
         $totalInvoices = ClientInvoice::where('client_id', $clientId)->count();
         $totalPaid = ClientInvoice::where('client_id', $clientId)->where('status', 'paid')->sum('total_amount');
-        $totalUnpaid = ClientInvoice::where('client_id', $clientId)->whereIn('status', ['draft', 'deposit', 'overdue'])->sum('total_amount');
+        
+        $subscriptionStatus = 'Lifetime';
+        $subDesc = 'Unlimited Access';
+        $subColor = 'success';
+        
+        if ($user->valid_until) {
+            $daysLeft = now()->diffInDays($user->valid_until, false);
+            if ($daysLeft > 0) {
+                $subscriptionStatus = $daysLeft . ' Days Left';
+                $subDesc = 'Valid until ' . $user->valid_until->format('d M Y');
+                $subColor = $daysLeft <= 7 ? 'warning' : 'success';
+            } else {
+                $subscriptionStatus = 'Expired';
+                $subDesc = 'Please renew your subscription';
+                $subColor = 'danger';
+            }
+        }
 
         return [
+            Stat::make('SaaS Subscription', $subscriptionStatus)
+                ->description($subDesc)
+                ->descriptionIcon('heroicon-m-calendar-days')
+                ->color($subColor),
             Stat::make('Invoices Issued', $totalInvoices)
                 ->description('Total invoices sent to your clients')
                 ->descriptionIcon('heroicon-m-document-text')
@@ -27,10 +48,6 @@ class ClientStatsWidget extends BaseWidget
                 ->description('Income from paid invoices')
                 ->descriptionIcon('heroicon-m-banknotes')
                 ->color('success'),
-            Stat::make('Outstanding Balance', 'Rp ' . number_format($totalUnpaid, 0, ',', '.'))
-                ->description('Amount owed by your clients')
-                ->descriptionIcon('heroicon-m-clock')
-                ->color('warning'),
         ];
     }
 }

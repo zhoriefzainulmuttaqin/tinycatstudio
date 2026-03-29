@@ -185,7 +185,7 @@ class ClientInvoiceResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('total_amount')
                     ->label('Total')
-                    ->money('idr')
+                    ->formatStateUsing(fn ($state): string => ClientInvoice::formatRupiah($state))
                     ->weight('bold')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status')
@@ -230,10 +230,7 @@ class ClientInvoiceResource extends Resource
                         ->label('Copy Public Link')
                         ->icon('heroicon-o-link')
                         ->color('info')
-                        ->url('#')
-                        ->extraAttributes(fn (\App\Models\ClientInvoice $record) => [
-                            'x-on:click.prevent' => "window.navigator.clipboard.writeText('".route('invoices.public', $record->invoice_number)."'); new FilamentNotification().title('Link Copied!').success().send();",
-                        ]),
+                        ->alpineClickHandler(fn (\App\Models\ClientInvoice $record) => "window.navigator.clipboard.writeText('".route('invoices.public', $record->invoice_number)."'); \$tooltip('Copied to clipboard!');"),
                     Tables\Actions\Action::make('download')
                         ->label('Download PDF')
                         ->icon('heroicon-o-arrow-down-tray')

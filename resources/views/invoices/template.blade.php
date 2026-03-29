@@ -164,31 +164,31 @@
             @foreach($invoice->items as $item)
             <tr class="item {{ $loop->last ? 'last' : '' }}">
                 <td>{{ $item->description }}</td>
-                <td class="text-center">Rp {{ number_format($item->unit_price, 2, ',', '.') }}</td>
-                <td class="text-center">{{ number_format($item->quantity, 2, ',', '.') }}</td>
-                <td class="text-right">Rp {{ number_format($item->quantity * $item->unit_price, 2, ',', '.') }}</td>
+                <td class="text-center">{{ \App\Models\ClientInvoice::formatRupiah($item->unit_price) }}</td>
+                <td class="text-center">{{ \App\Models\ClientInvoice::formatNumber($item->quantity) }}</td>
+                <td class="text-right">{{ \App\Models\ClientInvoice::formatRupiah($item->quantity * $item->unit_price) }}</td>
             </tr>
             @endforeach
 
             <tr class="total">
                 <td colspan="2"></td>
                 <td class="text-right"><strong>Subtotal:</strong></td>
-                <td class="text-right">Rp {{ number_format($invoice->subtotal, 2, ',', '.') }}</td>
+                <td class="text-right">{{ \App\Models\ClientInvoice::formatRupiah($invoice->subtotal) }}</td>
             </tr>
 
             @if(isset($invoice->discount_amount) && $invoice->discount_amount > 0)
             <tr class="total">
                 <td colspan="2"></td>
                 <td class="text-right" style="color: red;"><strong>Discount:</strong></td>
-                <td class="text-right" style="color: red;">-Rp {{ number_format($invoice->discount_amount, 2, ',', '.') }}</td>
+                <td class="text-right" style="color: red;">-{{ \App\Models\ClientInvoice::formatRupiah($invoice->discount_amount) }}</td>
             </tr>
             @endif
 
             @if($invoice->tax_amount > 0)
             <tr class="total">
                 <td colspan="2"></td>
-                <td class="text-right"><strong>Tax ({{ number_format($invoice->tax_rate, 2, ',', '.') }}%):</strong></td>
-                <td class="text-right">Rp {{ number_format($invoice->tax_amount, 2, ',', '.') }}</td>
+                <td class="text-right"><strong>Tax ({{ \App\Models\ClientInvoice::formatNumber($invoice->tax_rate) }}%):</strong></td>
+                <td class="text-right">{{ \App\Models\ClientInvoice::formatRupiah($invoice->tax_amount) }}</td>
             </tr>
             @endif
 
@@ -196,14 +196,14 @@
             <tr class="total">
                 <td colspan="2"></td>
                 <td class="text-right"><strong>Additional Fee:</strong></td>
-                <td class="text-right">Rp {{ number_format($invoice->additional_fee, 2, ',', '.') }}</td>
+                <td class="text-right">{{ \App\Models\ClientInvoice::formatRupiah($invoice->additional_fee) }}</td>
             </tr>
             @endif
 
             <tr class="total">
                 <td colspan="2"></td>
                 <td class="text-right"><strong>Total Amount:</strong></td>
-                <td class="text-right"><strong>Rp {{ number_format($invoice->total_amount, 2, ',', '.') }}</strong></td>
+                <td class="text-right"><strong>{{ \App\Models\ClientInvoice::formatRupiah($invoice->total_amount) }}</strong></td>
             </tr>
         </table>
         

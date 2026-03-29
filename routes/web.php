@@ -33,5 +33,12 @@ Route::middleware([\Illuminate\Session\Middleware\StartSession::class])->group(f
     Route::get('/invoices/{invoice}/preview', [\App\Http\Controllers\InvoiceController::class, 'preview'])->name('invoices.preview');
     Route::get('/invoices/{invoice}/download', [\App\Http\Controllers\InvoiceController::class, 'download'])->name('invoices.download');
     Route::get('/pay/{invoice_number}', [\App\Http\Controllers\InvoiceController::class, 'publicView'])->name('invoices.public');
+    Route::get('/pay/{invoice_number}/stream', [\App\Http\Controllers\InvoiceController::class, 'publicStream'])->name('invoices.public.stream');
     Route::get('/pay/{invoice_number}/download', [\App\Http\Controllers\InvoiceController::class, 'publicDownload'])->name('invoices.public.download');
+});
+
+Route::domain('invoice.tinycatstudio.tech')->middleware(['web', 'auth:client'])->group(function () {
+    Route::get('/verify-otp', [\App\Http\Controllers\ClientOtpController::class, 'show'])->name('client.verify-otp.show');
+    Route::post('/verify-otp', [\App\Http\Controllers\ClientOtpController::class, 'verify'])->name('client.verify-otp.verify');
+    Route::post('/resend-otp', [\App\Http\Controllers\ClientOtpController::class, 'resend'])->name('client.verify-otp.resend');
 });
