@@ -27,4 +27,11 @@ class ClientInvoiceItem extends Model
     {
         return $this->belongsTo(ClientInvoice::class, 'client_invoice_id');
     }
+
+    protected static function booted()
+    {
+        static::saving(function ($item) {
+            $item->total = $item->quantity * $item->unit_price;
+        });
+    }
 }

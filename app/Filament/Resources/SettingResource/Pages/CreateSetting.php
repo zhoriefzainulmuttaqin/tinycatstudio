@@ -22,4 +22,9 @@ class CreateSetting extends CreateRecord
         unset($data['value_text']);
         return $data;
     }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

@@ -29,9 +29,19 @@ class ClientPanelProvider extends PanelProvider
             ->login()
             ->authGuard('client')
             ->colors([
-                'primary' => Color::Blue,
+                'primary' => Color::Indigo,
+                'gray' => Color::Slate,
+                'info' => Color::Blue,
+                'success' => Color::Emerald,
+                'warning' => Color::Orange,
+                'danger' => Color::Rose,
             ])
-            ->brandName('TinyCatStudio Invoice')
+            ->font('Inter')
+            ->favicon(asset('favicon.ico'))
+            ->spa()
+            ->sidebarCollapsibleOnDesktop()
+            ->brandName('TinyCatStudio Portal')
+            ->profile(\App\Filament\Client\Pages\Auth\EditProfile::class)
             ->discoverResources(in: app_path('Filament/Client/Resources'), for: 'App\\Filament\\Client\\Resources')
             ->discoverPages(in: app_path('Filament/Client/Pages'), for: 'App\\Filament\\Client\\Pages')
             ->pages([
@@ -40,7 +50,6 @@ class ClientPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Client/Widgets'), for: 'App\\Filament\\Client\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,

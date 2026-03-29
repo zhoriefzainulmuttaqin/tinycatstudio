@@ -13,4 +13,9 @@ class CreateClientInvoice extends CreateRecord
     {
         $this->record->recalculateTotals();
     }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

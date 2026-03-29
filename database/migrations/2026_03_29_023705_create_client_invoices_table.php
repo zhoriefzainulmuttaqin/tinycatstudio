@@ -25,7 +25,7 @@ return new class extends Migration
             $table->decimal('tax_amount', 15, 2)->default(0);
             $table->decimal('total_amount', 15, 2)->default(0);
             $table->text('notes')->nullable();
-            $table->string('status')->default('draft'); // draft, sent, paid, overdue
+            $table->string('status')->default('draft'); // draft, deposit, paid, overdue
             $table->timestamps();
         });
     }

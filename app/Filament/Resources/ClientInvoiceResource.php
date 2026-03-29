@@ -45,13 +45,21 @@ class ClientInvoiceResource extends Resource
                         Forms\Components\Select::make('status')
                             ->options([
                                 'draft' => 'Draft',
-                                'sent' => 'Sent',
+                                'deposit' => 'Deposit',
                                 'paid' => 'Paid',
                                 'overdue' => 'Overdue',
                             ])
                             ->required()
                             ->default('draft'),
+                        Forms\Components\TextInput::make('tax_rate')
+                            ->numeric()
+                            ->default(0)
+                            ->suffix('%')
+                            ->label('Tax Rate'),
                         Forms\Components\Textarea::make('customer_address')
+                            ->maxLength(65535)
+                            ->columnSpanFull(),
+                        Forms\Components\Textarea::make('notes')
                             ->maxLength(65535)
                             ->columnSpanFull(),
                     ])->columns(2),
@@ -99,7 +107,7 @@ class ClientInvoiceResource extends Resource
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'draft' => 'gray',
-                        'sent' => 'warning',
+                        'deposit' => 'warning',
                         'paid' => 'success',
                         'overdue' => 'danger',
                         default => 'primary',
@@ -113,6 +121,16 @@ class ClientInvoiceResource extends Resource
                 //
             ])
             ->actions([
+                Tables\Actions\Action::make('preview')
+                    ->label('Preview')
+                    ->icon('heroicon-o-eye')
+                    ->url(fn (\App\Models\ClientInvoice $record): string => route('invoices.preview', $record))
+                    ->openUrlInNewTab(),
+                Tables\Actions\Action::make('download')
+                    ->label('PDF')
+                    ->icon('heroicon-o-arrow-down-tray')
+                    ->url(fn (\App\Models\ClientInvoice $record): string => route('invoices.download', $record))
+                    ->openUrlInNewTab(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
