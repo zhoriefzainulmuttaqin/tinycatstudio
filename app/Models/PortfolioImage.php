@@ -15,6 +15,11 @@ class PortfolioImage extends Model
         'image',
     ];
 
+    public function getImageUrlAttribute(): string
+    {
+        return Portfolio::resolveMediaUrl($this->image);
+    }
+
     public function portfolio(): BelongsTo
     {
         return $this->belongsTo(Portfolio::class);

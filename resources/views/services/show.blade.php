@@ -74,10 +74,10 @@
         <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
             @forelse ($service->portfolios as $portfolio)
                 <article class="overflow-hidden rounded-[2rem] border border-white/10 bg-white/5">
-                    <img src="{{ $portfolio->thumbnail }}" alt="{{ $portfolio->title }}" class="h-52 w-full object-cover sm:h-56">
+                    <img src="{{ $portfolio->thumbnail_url }}" alt="{{ $portfolio->title }}" class="h-52 w-full object-cover sm:h-56">
                     <div class="space-y-4 p-6">
                         <h3 class="text-xl font-semibold text-white break-words sm:text-2xl">{{ $portfolio->title }}</h3>
-                        <p class="text-sm leading-7 text-white/60">{{ \Illuminate\Support\Str::limit($portfolio->description, 120) }}</p>
+                        <p class="text-sm leading-7 text-white/60">{{ \Illuminate\Support\Str::limit(strip_tags($portfolio->description), 120) }}</p>
                         <a href="{{ route('portfolios.show', $portfolio) }}" class="inline-flex w-full items-center justify-center rounded-full border border-white/10 px-4 py-2 text-sm font-semibold text-white transition hover:border-orange-400/30 hover:bg-orange-500/10 sm:w-auto">Lihat Detail</a>
                     </div>
                 </article>

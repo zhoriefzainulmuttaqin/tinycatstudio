@@ -4,7 +4,7 @@
 @section('meta_description', \Illuminate\Support\Str::limit(strip_tags($post->content), 150))
 @section('meta_keywords', implode(', ', explode(' ', strtolower($post->title))) . ', software house, blog, artikel')
 @section('og_type', 'article')
-@section('og_image', $post->thumbnail)
+@section('og_image', $post->thumbnail_url)
 
 @section('content')
     <section class="mx-auto max-w-5xl px-4 py-14 sm:px-6 lg:px-8 lg:py-24">
@@ -16,13 +16,13 @@
             </div>
             <h1 class="text-3xl font-semibold leading-tight text-white break-words sm:text-4xl md:text-5xl">{{ $post->title }}</h1>
             <p class="text-sm text-white/45">Dipublikasikan {{ optional($post->published_at)->translatedFormat('d F Y') }}</p>
-            <img src="{{ $post->thumbnail }}" alt="{{ $post->title }}" class="max-h-[420px] w-full rounded-[2rem] border border-white/10 object-cover">
+            <img src="{{ $post->thumbnail_url }}" alt="{{ $post->title }}" class="max-h-[420px] w-full rounded-[2rem] border border-white/10 object-cover">
         </div>
     </section>
 
     <section class="mx-auto max-w-5xl px-4 pb-14 sm:px-6 lg:px-8 lg:pb-16">
-        <article class="rounded-[2rem] border border-white/10 bg-white/5 px-5 py-6 text-[15px] leading-7 break-words text-white/75 sm:px-6 sm:py-8 sm:text-base sm:leading-8 lg:px-10 lg:py-10">
-            {!! nl2br(e($post->content)) !!}
+        <article class="rounded-[2rem] border border-white/10 bg-white/5 px-5 py-6 text-[15px] leading-7 break-words text-white/75 sm:px-6 sm:py-8 sm:text-base sm:leading-8 lg:px-10 lg:py-10 [&>p]:mb-4 [&>ul]:list-disc [&>ul]:pl-5 [&>ul]:mb-4 [&>ol]:list-decimal [&>ol]:pl-5 [&>ol]:mb-4 [&>h1]:text-3xl [&>h1]:font-bold [&>h1]:mb-5 [&>h2]:text-2xl [&>h2]:font-bold [&>h2]:mb-4 [&>h3]:text-xl [&>h3]:font-bold [&>h3]:mb-3 [&>a]:text-cat-orange [&>a]:underline">
+            {!! $post->content !!}
         </article>
     </section>
 
@@ -37,7 +37,7 @@
         <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
             @forelse ($recentPosts as $related)
                 <article class="overflow-hidden rounded-[2rem] border border-white/10 bg-white/5">
-                    <img src="{{ $related->thumbnail }}" alt="{{ $related->title }}" class="h-52 w-full object-cover">
+                    <img src="{{ $related->thumbnail_url }}" alt="{{ $related->title }}" class="h-52 w-full object-cover">
                     <div class="space-y-4 p-6">
                         <h3 class="text-xl font-semibold text-white break-words sm:text-2xl">{{ $related->title }}</h3>
                         <p class="text-sm leading-7 text-white/60">{{ \Illuminate\Support\Str::limit(strip_tags($related->content), 120) }}</p>

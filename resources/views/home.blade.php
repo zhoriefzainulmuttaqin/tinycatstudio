@@ -388,7 +388,7 @@
             @if ($featuredPortfolio)
                 <article class="group luxury-panel overflow-hidden rounded-[2.5rem] border border-white/10 shadow-[0_28px_90px_rgba(0,0,0,0.32)]" data-reveal="left" data-tilt-card data-tilt-intensity="6">
                     <div class="relative min-h-[620px] overflow-hidden sm:min-h-[440px]">
-                        <img src="{{ $featuredPortfolio->thumbnail }}" alt="{{ $featuredPortfolio->title }}" class="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105">
+                        <img src="{{ $featuredPortfolio->thumbnail_url }}" alt="{{ $featuredPortfolio->title }}" class="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105">
                         <div class="absolute inset-0 bg-gradient-to-t from-black via-black/55 to-transparent"></div>
                         <div class="absolute inset-x-0 bottom-0 p-6 sm:p-8 lg:p-10">
                             <div class="max-w-2xl space-y-5">
@@ -402,7 +402,7 @@
 
                                 <div>
                                     <h3 class="text-2xl font-semibold text-white break-words sm:text-3xl lg:text-4xl">{{ $featuredPortfolio->title }}</h3>
-                                    <p class="mt-4 max-w-xl text-sm leading-7 text-white/75">{{ \Illuminate\Support\Str::limit($featuredPortfolio->description, 220) }}</p>
+                                    <p class="mt-4 max-w-xl text-sm leading-7 text-white/75">{{ \Illuminate\Support\Str::limit(strip_tags($featuredPortfolio->description), 220) }}</p>
                                 </div>
 
                                 <div class="grid gap-3 sm:grid-cols-3">
@@ -441,7 +441,7 @@
                     <article class="group luxury-panel hover-lift overflow-hidden rounded-[2rem] border border-white/10" style="transition-delay: {{ $loop->index * 80 }}ms" data-reveal data-tilt-card data-tilt-intensity="4">
                         <div class="grid gap-0 sm:grid-cols-[0.95fr_1.05fr]">
                             <div class="overflow-hidden">
-                                <img src="{{ $portfolio->thumbnail }}" alt="{{ $portfolio->title }}" class="h-full min-h-[220px] w-full object-cover transition duration-700 group-hover:scale-105">
+                                <img src="{{ $portfolio->thumbnail_url }}" alt="{{ $portfolio->title }}" class="h-full min-h-[220px] w-full object-cover transition duration-700 group-hover:scale-105">
                             </div>
                             <div class="space-y-4 p-6">
                                 <div class="flex flex-wrap items-center justify-between gap-3">
@@ -451,7 +451,7 @@
                                     @endif
                                 </div>
                                 <h3 class="text-xl font-semibold text-white break-words sm:text-2xl">{{ $portfolio->title }}</h3>
-                                <p class="text-sm leading-7 text-white/60">{{ \Illuminate\Support\Str::limit($portfolio->description, 130) }}</p>
+                                <p class="text-sm leading-7 text-white/60">{{ \Illuminate\Support\Str::limit(strip_tags($portfolio->description), 130) }}</p>
                                 <a href="{{ route('portfolios.show', $portfolio) }}" class="inline-flex w-full items-center justify-center rounded-full border border-white/10 px-4 py-2 text-sm font-semibold text-white transition hover:border-orange-400/30 hover:bg-orange-500/10 sm:w-auto">Lihat Detail Project</a>
                             </div>
                         </div>
@@ -649,7 +649,7 @@
             @forelse ($blogPosts as $post)
                 <article class="group luxury-panel hover-lift overflow-hidden rounded-[2rem] border border-white/10 shadow-[0_16px_60px_rgba(0,0,0,0.22)]" style="transition-delay: {{ $loop->index * 90 }}ms" data-reveal data-tilt-card data-tilt-intensity="4">
                     <div class="overflow-hidden">
-                        <img src="{{ $post->thumbnail }}" alt="{{ $post->title }}" class="h-56 w-full object-cover transition duration-700 group-hover:scale-105">
+                        <img src="{{ $post->thumbnail_url }}" alt="{{ $post->title }}" class="h-56 w-full object-cover transition duration-700 group-hover:scale-105">
                     </div>
                     <div class="space-y-4 p-6">
                         <div class="flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-orange-300">

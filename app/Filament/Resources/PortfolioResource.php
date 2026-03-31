@@ -51,6 +51,22 @@ class PortfolioResource extends Resource
                             ->required()
                             ->columnSpanFull(),
                     ])->columns(2),
+                Forms\Components\Section::make('Gallery Images')
+                    ->schema([
+                        Forms\Components\Repeater::make('images')
+                            ->relationship('images')
+                            ->schema([
+                                Forms\Components\FileUpload::make('image')
+                                    ->image()
+                                    ->directory('portfolio-images')
+                                    ->required()
+                                    ->hiddenLabel(),
+                            ])
+                            ->grid(3)
+                            ->defaultItems(0)
+                            ->addActionLabel('Add Image')
+                            ->columnSpanFull(),
+                    ]),
             ]);
     }
 

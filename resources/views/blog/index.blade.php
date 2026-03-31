@@ -28,7 +28,7 @@
         <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
             @forelse ($posts as $post)
                 <article class="overflow-hidden rounded-[2rem] border border-white/10 bg-white/5">
-                    <img src="{{ $post->thumbnail }}" alt="{{ $post->title }}" class="h-52 w-full object-cover sm:h-56">
+                    <img src="{{ $post->thumbnail_url }}" alt="{{ $post->title }}" class="h-52 w-full object-cover sm:h-56">
                     <div class="space-y-4 p-6">
                         <p class="text-xs uppercase tracking-[0.25em] text-orange-300">{{ optional($post->published_at)->translatedFormat('d M Y') }}</p>
                         <h2 class="text-xl font-semibold text-white break-words sm:text-2xl">{{ $post->title }}</h2>

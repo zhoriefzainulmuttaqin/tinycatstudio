@@ -28,6 +28,11 @@ class BlogPost extends Model
         ];
     }
 
+    public function getThumbnailUrlAttribute(): string
+    {
+        return Portfolio::resolveMediaUrl($this->thumbnail);
+    }
+
     public function categories(): BelongsToMany
     {
         return $this->belongsToMany(Category::class, 'post_categories', 'post_id', 'category_id')->withTimestamps();

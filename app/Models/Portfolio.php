@@ -30,6 +30,30 @@ class Portfolio extends Model
         ];
     }
 
+    public function getThumbnailUrlAttribute(): string
+    {
+        return self::resolveMediaUrl($this->thumbnail);
+    }
+
+    public static function resolveMediaUrl(?string $path): string
+    {
+        if (blank($path)) {
+            return '';
+        }
+
+        if (filter_var($path, FILTER_VALIDATE_URL)) {
+            return $path;
+        }
+
+        $normalizedPath = ltrim($path, '/');
+
+        if (str_starts_with($normalizedPath, 'storage/')) {
+            return asset($normalizedPath);
+        }
+
+        return asset('storage/' . $normalizedPath);
+    }
+
     public function service(): BelongsTo
     {
         return $this->belongsTo(Service::class);
