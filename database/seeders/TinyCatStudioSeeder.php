@@ -189,9 +189,10 @@ class TinyCatStudioSeeder extends Seeder
                     'is_popular' => $package['is_popular'],
                 ]);
 
-                foreach ($package['features'] as $feature) {
+                foreach ($package['features'] as $index => $feature) {
                     $createdPackage->features()->create([
                         'feature' => $feature,
+                        'sort_order' => $index + 1,
                     ]);
                 }
             }

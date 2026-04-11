@@ -3,85 +3,92 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ClientInvoiceResource\Pages;
-use App\Filament\Resources\ClientInvoiceResource\RelationManagers;
 use App\Models\ClientInvoice;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ClientInvoiceResource extends Resource
 {
     protected static ?string $model = ClientInvoice::class;
 
-    protected static ?string $navigationGroup = 'Financial';
+    protected static ?string $navigationGroup = 'Keuangan';
     protected static ?string $navigationIcon = 'heroicon-o-document-currency-dollar';
+    protected static ?string $navigationLabel = 'Tagihan Klien';
+    protected static ?string $modelLabel = 'tagihan klien';
+    protected static ?string $pluralModelLabel = 'tagihan klien';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Invoice Information')
+                Forms\Components\Section::make('Informasi Tagihan')
                     ->schema([
                         Forms\Components\Select::make('client_id')
+                            ->label('Klien')
                             ->relationship('client', 'name')
                             ->required(),
                         Forms\Components\TextInput::make('invoice_number')
+                            ->label('No. Tagihan')
                             ->required()
                             ->maxLength(255),
                         Forms\Components\TextInput::make('customer_name')
+                            ->label('Nama Pelanggan')
                             ->required()
                             ->maxLength(255),
                         Forms\Components\TextInput::make('customer_email')
+                            ->label('Email Pelanggan')
                             ->email()
                             ->maxLength(255),
                         Forms\Components\DatePicker::make('issue_date')
+                            ->label('Tanggal Terbit')
                             ->required(),
                         Forms\Components\DatePicker::make('due_date')
+                            ->label('Jatuh Tempo')
                             ->required(),
                         Forms\Components\Select::make('status')
-                            ->options([
-                                'draft' => 'Draft',
-                                'deposit' => 'Deposit',
-                                'paid' => 'Paid',
-                                'overdue' => 'Overdue',
-                            ])
+                            ->label('Status')
+                            ->options(ClientInvoice::statusOptions())
                             ->required()
                             ->default('draft'),
                         Forms\Components\TextInput::make('tax_rate')
+                            ->label('Tarif Pajak')
                             ->numeric()
                             ->default(0)
-                            ->suffix('%')
-                            ->label('Tax Rate'),
+                            ->suffix('%'),
                         Forms\Components\Textarea::make('customer_address')
+                            ->label('Alamat Pelanggan')
                             ->maxLength(65535)
                             ->columnSpanFull(),
                         Forms\Components\Textarea::make('notes')
+                            ->label('Catatan')
                             ->maxLength(65535)
                             ->columnSpanFull(),
                     ])->columns(2),
-                    
-                Forms\Components\Section::make('Items')
+
+                Forms\Components\Section::make('Item Tagihan')
                     ->schema([
                         Forms\Components\Repeater::make('items')
                             ->relationship()
                             ->schema([
                                 Forms\Components\TextInput::make('description')
+                                    ->label('Deskripsi')
                                     ->required()
                                     ->maxLength(255),
                                 Forms\Components\TextInput::make('quantity')
+                                    ->label('Jumlah')
                                     ->required()
                                     ->numeric()
                                     ->default(1),
                                 Forms\Components\TextInput::make('unit_price')
+                                    ->label('Harga Satuan')
                                     ->required()
                                     ->numeric()
                                     ->default(0),
                             ])
-                            ->columns(3)
+                            ->columns(3),
                     ]),
             ]);
     }
@@ -91,20 +98,27 @@ class ClientInvoiceResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('client.name')
+                    ->label('Klien')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('invoice_number')
+                    ->label('No. Tagihan')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('customer_name')
+                    ->label('Pelanggan')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('issue_date')
-                    ->date()
+                    ->label('Tanggal Terbit')
+                    ->date('d M Y')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('total_amount')
-                    ->money('idr')
+                    ->label('Total')
+                    ->formatStateUsing(fn ($state): string => ClientInvoice::formatRupiah($state))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status')
+                    ->label('Status')
                     ->badge()
+                    ->formatStateUsing(fn (string $state): string => ClientInvoice::statusLabel($state))
                     ->color(fn (string $state): string => match ($state) {
                         'draft' => 'gray',
                         'deposit' => 'warning',
@@ -113,7 +127,8 @@ class ClientInvoiceResource extends Resource
                         default => 'primary',
                     }),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
+                    ->label('Dibuat Pada')
+                    ->dateTime('d M Y H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
@@ -122,20 +137,22 @@ class ClientInvoiceResource extends Resource
             ])
             ->actions([
                 Tables\Actions\Action::make('preview')
-                    ->label('Preview')
+                    ->label('Pratinjau')
                     ->icon('heroicon-o-eye')
-                    ->url(fn (\App\Models\ClientInvoice $record): string => route('invoices.preview', $record))
+                    ->url(fn (ClientInvoice $record): string => route('invoices.preview', $record))
                     ->openUrlInNewTab(),
                 Tables\Actions\Action::make('download')
-                    ->label('PDF')
+                    ->label('Unduh PDF')
                     ->icon('heroicon-o-arrow-down-tray')
-                    ->url(fn (\App\Models\ClientInvoice $record): string => route('invoices.download', $record))
+                    ->url(fn (ClientInvoice $record): string => route('invoices.download', $record))
                     ->openUrlInNewTab(),
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->label('Ubah'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->label('Hapus Terpilih'),
                 ]),
             ]);
     }

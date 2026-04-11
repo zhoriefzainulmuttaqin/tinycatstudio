@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice {{ $invoice->invoice_number }}</title>
+    <title>Tagihan {{ $invoice->invoice_number }}</title>
     <style>
         body {
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -116,16 +116,16 @@
                                             $base64 = url('storage/' . $invoice->client->logo_url);
                                         }
                                     ?>
-                                    <img src="{{ $base64 }}" class="logo" alt="Company Logo">
+                                    <img src="{{ $base64 }}" class="logo" alt="Logo Perusahaan">
                                 @else
                                     <h2 style="margin:0;">{{ $invoice->client->company_name ?? $invoice->client->name }}</h2>
                                 @endif
                             </td>
                             <td>
-                                <span class="invoice-header">INVOICE</span><br>
-                                Invoice #: {{ $invoice->invoice_number }}<br>
-                                Issued: {{ $invoice->issue_date->format('d M Y') }}<br>
-                                Due: {{ $invoice->due_date->format('d M Y') }}
+                                <span class="invoice-header">TAGIHAN</span><br>
+                                No. Tagihan: {{ $invoice->invoice_number }}<br>
+                                Tanggal Terbit: {{ $invoice->issue_date->format('d M Y') }}<br>
+                                Jatuh Tempo: {{ $invoice->due_date->format('d M Y') }}
                             </td>
                         </tr>
                     </table>
@@ -137,14 +137,14 @@
                     <table>
                         <tr>
                             <td>
-                                <strong>From:</strong><br>
+                                <strong>Dari:</strong><br>
                                 {{ $invoice->client->company_name ?? $invoice->client->name }}<br>
                                 {{ $invoice->client->email }}<br>
                                 {{ $invoice->client->phone }}<br>
                                 {!! nl2br(e($invoice->client->address)) !!}
                             </td>
                             <td>
-                                <strong>Bill To:</strong><br>
+                                <strong>Ditagihkan Kepada:</strong><br>
                                 {{ $invoice->customer_name }}<br>
                                 {{ $invoice->customer_email }}<br>
                                 {!! nl2br(e($invoice->customer_address)) !!}
@@ -155,9 +155,9 @@
             </tr>
 
             <tr class="heading">
-                <td>Item Description</td>
-                <td class="text-center">Price</td>
-                <td class="text-center">Qty</td>
+                <td>Deskripsi Item</td>
+                <td class="text-center">Harga</td>
+                <td class="text-center">Jumlah</td>
                 <td class="text-right">Total</td>
             </tr>
 
@@ -179,7 +179,7 @@
             @if(isset($invoice->discount_amount) && $invoice->discount_amount > 0)
             <tr class="total">
                 <td colspan="2"></td>
-                <td class="text-right" style="color: red;"><strong>Discount:</strong></td>
+                <td class="text-right" style="color: red;"><strong>Diskon:</strong></td>
                 <td class="text-right" style="color: red;">-{{ \App\Models\ClientInvoice::formatRupiah($invoice->discount_amount) }}</td>
             </tr>
             @endif
@@ -187,7 +187,7 @@
             @if($invoice->tax_amount > 0)
             <tr class="total">
                 <td colspan="2"></td>
-                <td class="text-right"><strong>Tax ({{ \App\Models\ClientInvoice::formatNumber($invoice->tax_rate) }}%):</strong></td>
+                <td class="text-right"><strong>Pajak ({{ \App\Models\ClientInvoice::formatNumber($invoice->tax_rate) }}%):</strong></td>
                 <td class="text-right">{{ \App\Models\ClientInvoice::formatRupiah($invoice->tax_amount) }}</td>
             </tr>
             @endif
@@ -195,21 +195,21 @@
             @if(isset($invoice->additional_fee) && $invoice->additional_fee > 0)
             <tr class="total">
                 <td colspan="2"></td>
-                <td class="text-right"><strong>Additional Fee:</strong></td>
+                <td class="text-right"><strong>Biaya Tambahan:</strong></td>
                 <td class="text-right">{{ \App\Models\ClientInvoice::formatRupiah($invoice->additional_fee) }}</td>
             </tr>
             @endif
 
             <tr class="total">
                 <td colspan="2"></td>
-                <td class="text-right"><strong>Total Amount:</strong></td>
+                <td class="text-right"><strong>Total Tagihan:</strong></td>
                 <td class="text-right"><strong>{{ \App\Models\ClientInvoice::formatRupiah($invoice->total_amount) }}</strong></td>
             </tr>
         </table>
-        
+
         @if($invoice->notes)
         <div style="margin-top: 50px;">
-            <strong>Notes:</strong>
+            <strong>Catatan:</strong>
             <p>{!! nl2br(e($invoice->notes)) !!}</p>
         </div>
         @endif
@@ -226,7 +226,7 @@
                     $sigBase64 = url('storage/' . $invoice->client->signature_url);
                 }
             ?>
-            <img src="{{ $sigBase64 }}" class="signature-img" alt="Signature"><br>
+            <img src="{{ $sigBase64 }}" class="signature-img" alt="Tanda Tangan"><br>
             <strong style="border-top: 1px solid #333; padding-top: 5px; display: inline-block; width: 100%;">
                 {{ $invoice->client->name }}
             </strong>

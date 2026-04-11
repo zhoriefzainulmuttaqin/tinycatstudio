@@ -13,6 +13,7 @@ class PricingFeature extends Model
     protected $fillable = [
         'package_id',
         'feature',
+        'sort_order',
     ];
 
     public function package(): BelongsTo

@@ -47,6 +47,9 @@ class PricingPackageResource extends Resource
                         Forms\Components\TextInput::make('feature')
                             ->required(),
                     ])
+                    ->orderColumn('sort_order')
+                    ->reorderableWithDragAndDrop()
+                    ->itemNumbers()
                     ->columnSpanFull(),
                     ])->columns(2),
             ]);

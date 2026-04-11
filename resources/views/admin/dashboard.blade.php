@@ -233,12 +233,12 @@
 
                         <section class="rounded-[2rem] border border-white/10 bg-black/35 p-5 shadow-[0_18px_60px_rgba(0,0,0,0.2)] backdrop-blur sm:p-6">
                             <p class="text-xs font-semibold uppercase tracking-[0.24em] text-white/45">Keuangan</p>
-                            <h2 class="mt-2 text-xl font-semibold text-white">Invoice perlu perhatian</h2>
+                            <h2 class="mt-2 text-xl font-semibold text-white">Tagihan perlu perhatian</h2>
 
                             <div class="mt-5 rounded-[1.5rem] border border-orange-400/20 bg-orange-500/10 p-5">
-                                <p class="text-sm text-orange-100/75">Total invoice unpaid</p>
+                                <p class="text-sm text-orange-100/75">Total tagihan belum dibayar</p>
                                 <p class="mt-2 text-3xl font-semibold text-white">Rp {{ number_format($financialSummary['unpaidTotal'], 0, ',', '.') }}</p>
-                                <p class="mt-2 text-sm text-white/65">{{ $financialSummary['unpaidCount'] }} invoice masih menunggu pembayaran.</p>
+                                <p class="mt-2 text-sm text-white/65">{{ $financialSummary['unpaidCount'] }} tagihan masih menunggu pembayaran.</p>
                             </div>
                         </section>
 

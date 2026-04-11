@@ -3,7 +3,7 @@
 namespace App\Filament\Client\Resources;
 
 use App\Filament\Client\Resources\ClientInvoiceResource\Pages;
-use App\Filament\Client\Resources\ClientInvoiceResource\RelationManagers;
+use App\Models\ClientCustomer;
 use App\Models\ClientInvoice;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -11,20 +11,19 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ClientInvoiceResource extends Resource
 {
     protected static ?string $model = ClientInvoice::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-document-currency-dollar';
-    protected static ?string $navigationLabel = 'My Invoices';
-    protected static ?string $modelLabel = 'Invoice';
-    protected static ?string $pluralModelLabel = 'Invoices';
+    protected static ?string $navigationLabel = 'Tagihan Saya';
+    protected static ?string $modelLabel = 'tagihan';
+    protected static ?string $pluralModelLabel = 'tagihan';
 
     protected static ?int $navigationSort = 1;
 
-    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()->where('client_id', auth()->id());
     }
@@ -33,23 +32,25 @@ class ClientInvoiceResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Invoice Details')
-                    ->description('Provide the details of the client you are billing.')
+                Forms\Components\Section::make('Detail Tagihan')
+                    ->description('Lengkapi detail pelanggan yang akan ditagih.')
                     ->schema([
                         Forms\Components\Hidden::make('client_id')
                             ->default(fn () => auth()->id()),
                         Forms\Components\TextInput::make('invoice_number')
+                            ->label('No. Tagihan')
                             ->required()
                             ->default(fn () => 'INV-' . strtoupper(str()->random(6)))
                             ->maxLength(255),
                         Forms\Components\Select::make('client_customer_id')
-                            ->label('Select Existing Customer')
-                            ->options(fn () => \App\Models\ClientCustomer::where('client_id', auth()->id())->pluck('name', 'id'))
+                            ->label('Pilih Pelanggan Tersimpan')
+                            ->options(fn () => ClientCustomer::where('client_id', auth()->id())->pluck('name', 'id'))
                             ->searchable()
                             ->live()
                             ->afterStateUpdated(function ($state, Forms\Set $set) {
                                 if ($state) {
-                                    $customer = \App\Models\ClientCustomer::find($state);
+                                    $customer = ClientCustomer::find($state);
+
                                     if ($customer) {
                                         $set('customer_name', $customer->name);
                                         $set('customer_email', $customer->email);
@@ -59,103 +60,100 @@ class ClientInvoiceResource extends Resource
                             })
                             ->columnSpanFull(),
                         Forms\Components\TextInput::make('customer_name')
-                            ->label('Billed To (Client Name)')
+                            ->label('Nama Pelanggan')
                             ->required()
                             ->maxLength(255),
                         Forms\Components\TextInput::make('customer_email')
-                            ->label('Client Email')
+                            ->label('Email Pelanggan')
                             ->email()
                             ->maxLength(255),
                         Forms\Components\DatePicker::make('issue_date')
+                            ->label('Tanggal Terbit')
                             ->required()
                             ->default(now()),
                         Forms\Components\DatePicker::make('due_date')
+                            ->label('Jatuh Tempo')
                             ->required()
                             ->default(now()->addDays(14)),
                         Forms\Components\Select::make('status')
-                            ->options([
-                                'draft' => 'Draft',
-                                'deposit' => 'Deposit',
-                                'paid' => 'Paid',
-                                'overdue' => 'Overdue',
-                            ])
+                            ->label('Status')
+                            ->options(ClientInvoice::statusOptions())
                             ->required()
                             ->default('draft'),
                     ])->columns(['default' => 1, 'md' => 2]),
 
-                Forms\Components\Section::make('Totals & Adjustments')
+                Forms\Components\Section::make('Ringkasan & Penyesuaian')
                     ->schema([
                         Forms\Components\TextInput::make('discount_amount')
+                            ->label('Nominal Diskon')
                             ->numeric()
-                            ->default(0)
-                            ->label('Discount Amount (Nominal)'),
+                            ->default(0),
                         Forms\Components\TextInput::make('tax_rate')
+                            ->label('Tarif Pajak')
                             ->numeric()
                             ->default(0)
-                            ->suffix('%')
-                            ->label('Tax Rate'),
+                            ->suffix('%'),
                         Forms\Components\TextInput::make('additional_fee')
+                            ->label('Biaya Tambahan (Pengiriman, dll.)')
                             ->numeric()
-                            ->default(0)
-                            ->label('Additional Fee (Shipping, etc)'),
+                            ->default(0),
                     ])->columns(3),
-                    
-                Forms\Components\Section::make('Automation')
-                    ->description('Set this invoice to recur automatically.')
+
+                Forms\Components\Section::make('Otomatisasi')
+                    ->description('Atur agar tagihan ini dibuat berulang secara otomatis.')
                     ->schema([
                         Forms\Components\Toggle::make('is_recurring')
-                            ->label('Recurring Invoice')
+                            ->label('Tagihan Berulang')
                             ->live(),
                         Forms\Components\Select::make('recurring_interval')
-                            ->label('Interval')
-                            ->options([
-                                'weekly' => 'Weekly',
-                                'monthly' => 'Monthly',
-                                'yearly' => 'Yearly',
-                            ])
+                            ->label('Periode')
+                            ->options(ClientInvoice::recurringIntervalOptions())
                             ->required(fn (Forms\Get $get) => $get('is_recurring'))
                             ->visible(fn (Forms\Get $get) => $get('is_recurring')),
                         Forms\Components\DatePicker::make('next_recurring_date')
-                            ->label('First Recurrence Date')
+                            ->label('Tanggal Tagihan Berikutnya')
                             ->required(fn (Forms\Get $get) => $get('is_recurring'))
                             ->visible(fn (Forms\Get $get) => $get('is_recurring')),
                     ])->columns(3),
-                    
-                Forms\Components\Section::make('Client Information')
+
+                Forms\Components\Section::make('Informasi Pelanggan')
                     ->schema([
                         Forms\Components\Textarea::make('customer_address')
-                            ->label('Client Address')
+                            ->label('Alamat Pelanggan')
                             ->maxLength(65535)
                             ->columnSpanFull(),
                         Forms\Components\Textarea::make('notes')
-                            ->label('Notes / Payment Terms')
-                            ->helperText('Add any payment instructions or terms of service.')
+                            ->label('Catatan / Syarat Pembayaran')
+                            ->helperText('Tambahkan instruksi pembayaran atau syarat layanan.')
                             ->maxLength(65535)
                             ->columnSpanFull(),
                     ])->columns(['default' => 1, 'md' => 2]),
 
-                Forms\Components\Section::make('Line Items')
-                    ->description('Add the products or services you are billing for.')
+                Forms\Components\Section::make('Item Tagihan')
+                    ->description('Tambahkan produk atau layanan yang ingin ditagihkan.')
                     ->schema([
                         Forms\Components\Repeater::make('items')
                             ->relationship()
                             ->schema([
                                 Forms\Components\TextInput::make('description')
+                                    ->label('Deskripsi')
                                     ->required()
                                     ->maxLength(255)
                                     ->columnSpan(['default' => 1, 'md' => 2]),
                                 Forms\Components\TextInput::make('quantity')
+                                    ->label('Jumlah')
                                     ->required()
                                     ->numeric()
                                     ->default(1)
                                     ->columnSpan(1),
                                 Forms\Components\TextInput::make('unit_price')
+                                    ->label('Harga Satuan')
                                     ->required()
                                     ->numeric()
                                     ->default(0)
                                     ->columnSpan(1),
                             ])
-                            ->columns(['default' => 1, 'md' => 4])
+                            ->columns(['default' => 1, 'md' => 4]),
                     ]),
             ]);
     }
@@ -165,22 +163,22 @@ class ClientInvoiceResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('invoice_number')
-                    ->label('Invoice #')
+                    ->label('No. Tagihan')
                     ->weight('bold')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('customer_name')
-                    ->label('Billed To')
+                    ->label('Pelanggan')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('issue_date')
-                    ->label('Issue Date')
-                    ->date('M d, Y')
+                    ->label('Tanggal Terbit')
+                    ->date('d M Y')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('due_date')
-                    ->label('Due Date')
-                    ->date('M d, Y')
+                    ->label('Jatuh Tempo')
+                    ->date('d M Y')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('total_amount')
@@ -189,7 +187,9 @@ class ClientInvoiceResource extends Resource
                     ->weight('bold')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status')
+                    ->label('Status')
                     ->badge()
+                    ->formatStateUsing(fn (string $state): string => ClientInvoice::statusLabel($state))
                     ->color(fn (string $state): string => match ($state) {
                         'draft' => 'gray',
                         'deposit' => 'warning',
@@ -198,7 +198,7 @@ class ClientInvoiceResource extends Resource
                         default => 'primary',
                     }),
                 Tables\Columns\IconColumn::make('is_recurring')
-                    ->label('Recurring')
+                    ->label('Berulang')
                     ->boolean()
                     ->trueIcon('heroicon-o-arrow-path')
                     ->falseIcon('heroicon-o-minus')
@@ -210,38 +210,41 @@ class ClientInvoiceResource extends Resource
             ->actions([
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\Action::make('preview')
-                        ->label('Preview')
+                        ->label('Pratinjau')
                         ->icon('heroicon-o-eye')
-                        ->url(fn (\App\Models\ClientInvoice $record): string => route('invoices.preview', $record))
+                        ->url(fn (ClientInvoice $record): string => route('invoices.preview', $record))
                         ->openUrlInNewTab(),
                     Tables\Actions\Action::make('share_wa')
-                        ->label('Share to WA')
+                        ->label('Bagikan ke WA')
                         ->icon('heroicon-o-chat-bubble-left-ellipsis')
                         ->color('success')
-                        ->url(function (\App\Models\ClientInvoice $record): string {
+                        ->url(function (ClientInvoice $record): string {
                             $companyName = auth()->user()->company_name ?? auth()->user()->name;
-                            $total = 'Rp ' . number_format($record->total_amount, 0, ',', '.');
+                            $total = ClientInvoice::formatRupiah($record->total_amount);
                             $link = route('invoices.public', $record->invoice_number);
-                            $text = "Hello {$record->customer_name},\n\nHere is your invoice {$record->invoice_number} from {$companyName} for the amount of {$total}.\n\nYou can view and download your invoice online here:\n{$link}\n\nThank you!";
+                            $text = "Halo {$record->customer_name},\n\nBerikut tagihan {$record->invoice_number} dari {$companyName} dengan total {$total}.\n\nAnda bisa melihat dan mengunduh tagihan secara online di sini:\n{$link}\n\nTerima kasih.";
+
                             return 'https://wa.me/?text=' . urlencode($text);
                         })
                         ->openUrlInNewTab(),
                     Tables\Actions\Action::make('copy_link')
-                        ->label('Copy Public Link')
+                        ->label('Salin Tautan Publik')
                         ->icon('heroicon-o-link')
                         ->color('info')
-                        ->alpineClickHandler(fn (\App\Models\ClientInvoice $record) => "window.navigator.clipboard.writeText('".route('invoices.public', $record->invoice_number)."'); \$tooltip('Copied to clipboard!');"),
+                        ->alpineClickHandler(fn (ClientInvoice $record) => "window.navigator.clipboard.writeText('" . route('invoices.public', $record->invoice_number) . "'); \$tooltip('Tautan berhasil disalin!');"),
                     Tables\Actions\Action::make('download')
-                        ->label('Download PDF')
+                        ->label('Unduh PDF')
                         ->icon('heroicon-o-arrow-down-tray')
-                        ->url(fn (\App\Models\ClientInvoice $record): string => route('invoices.download', $record))
+                        ->url(fn (ClientInvoice $record): string => route('invoices.download', $record))
                         ->openUrlInNewTab(),
-                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\EditAction::make()
+                        ->label('Ubah'),
                 ]),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->label('Hapus Terpilih'),
                 ]),
             ]);
     }

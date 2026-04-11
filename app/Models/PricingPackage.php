@@ -34,6 +34,8 @@ class PricingPackage extends Model
 
     public function features(): HasMany
     {
-        return $this->hasMany(PricingFeature::class, 'package_id');
+        return $this->hasMany(PricingFeature::class, 'package_id')
+            ->orderBy('sort_order')
+            ->orderBy('id');
     }
 }

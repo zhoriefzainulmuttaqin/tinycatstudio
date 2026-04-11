@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\ClientInvoice;
 use Barryvdh\DomPDF\Facade\Pdf;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 
 class InvoiceController extends Controller
 {
@@ -14,12 +12,12 @@ class InvoiceController extends Controller
         $isAdmin = auth('web')->check();
         $isClient = auth('client')->check();
 
-        if (!$isAdmin && !$isClient) {
-            abort(403, 'Unauthorized access. Please login.');
+        if (! $isAdmin && ! $isClient) {
+            abort(403, 'Akses ditolak. Silakan login terlebih dahulu.');
         }
 
-        if (!$isAdmin && $isClient && auth('client')->id() !== $invoice->client_id) {
-            abort(403, 'Unauthorized access.');
+        if (! $isAdmin && $isClient && auth('client')->id() !== $invoice->client_id) {
+            abort(403, 'Akses ditolak.');
         }
     }
 
@@ -37,8 +35,8 @@ class InvoiceController extends Controller
         $this->authorizeAccess($invoice);
 
         $pdf = Pdf::loadView('invoices.template', compact('invoice'));
-        
-        return $pdf->download('Invoice-' . $invoice->invoice_number . '.pdf');
+
+        return $pdf->download('Tagihan-' . $invoice->invoice_number . '.pdf');
     }
 
     public function publicView($invoice_number)
@@ -51,13 +49,15 @@ class InvoiceController extends Controller
     {
         $invoice = ClientInvoice::with(['client', 'items'])->where('invoice_number', $invoice_number)->firstOrFail();
         $pdf = Pdf::loadView('invoices.template', compact('invoice'));
-        return $pdf->stream('Invoice-' . $invoice->invoice_number . '.pdf');
+
+        return $pdf->stream('Tagihan-' . $invoice->invoice_number . '.pdf');
     }
 
     public function publicDownload($invoice_number)
     {
         $invoice = ClientInvoice::with(['client', 'items'])->where('invoice_number', $invoice_number)->firstOrFail();
         $pdf = Pdf::loadView('invoices.template', compact('invoice'));
-        return $pdf->download('Invoice-' . $invoice->invoice_number . '.pdf');
+
+        return $pdf->download('Tagihan-' . $invoice->invoice_number . '.pdf');
     }
 }

@@ -60,6 +60,45 @@ class ClientInvoice extends Model
         return 'Rp ' . self::formatNumber($value);
     }
 
+    public static function statusOptions(): array
+    {
+        return [
+            'draft' => 'Draf',
+            'deposit' => 'Uang Muka',
+            'paid' => 'Lunas',
+            'overdue' => 'Lewat Jatuh Tempo',
+        ];
+    }
+
+    public static function recurringIntervalOptions(): array
+    {
+        return [
+            'weekly' => 'Mingguan',
+            'monthly' => 'Bulanan',
+            'yearly' => 'Tahunan',
+        ];
+    }
+
+    public static function statusLabel(?string $status): string
+    {
+        return self::statusOptions()[$status] ?? \Illuminate\Support\Str::headline((string) $status);
+    }
+
+    public static function recurringIntervalLabel(?string $interval): string
+    {
+        return self::recurringIntervalOptions()[$interval] ?? \Illuminate\Support\Str::headline((string) $interval);
+    }
+
+    public function getStatusLabelAttribute(): string
+    {
+        return self::statusLabel($this->status);
+    }
+
+    public function getRecurringIntervalLabelAttribute(): string
+    {
+        return self::recurringIntervalLabel($this->recurring_interval);
+    }
+
     public function client()
     {
         return $this->belongsTo(Client::class);

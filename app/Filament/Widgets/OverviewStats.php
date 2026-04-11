@@ -26,7 +26,7 @@ class OverviewStats extends BaseWidget
                 ->description('Project sedang dikerjakan')
                 ->descriptionIcon('heroicon-m-briefcase')
                 ->color('warning'),
-            Stat::make('Invoice Unpaid', Invoice::where('status', 'unpaid')->count())
+            Stat::make('Tagihan Belum Dibayar', Invoice::where('status', 'unpaid')->count())
                 ->description('Menunggu pembayaran')
                 ->descriptionIcon('heroicon-m-currency-dollar')
                 ->color('danger'),
